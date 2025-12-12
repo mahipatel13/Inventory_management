@@ -1,0 +1,130 @@
+{
+  "semester1": {
+    "name": "B.Tech.(AI&ML) - Semester 1",
+    "schedule": [
+      {
+        "time": "09:10-10:10",
+        "monday": {"subject": "MSUD101", "faculty": "JPC", "room": "322-A", "type": "LECTURE"},
+        "tuesday": {"subject": "EEUD101", "faculty": "AHP", "room": "322-A", "type": "LECTURE"},
+        "wednesday": {"subject": "HSUA101", "faculty": "PZ", "room": "322-A", "type": "LECTURE"},
+        "thursday": {"subject": "CEUC101/PSUD101", "faculty": "GKG/DS", "room": "323-B/321", "type": "LECTURE"},
+        "friday": {"subject": "EEUD101", "faculty": "AHP", "room": "322-A", "type": "LECTURE"},
+        "saturday": {"subject": "FTUC001", "faculty": "SDP", "room": "", "type": "LECTURE"}
+      },
+      {
+        "time": "10:10-11:10",
+        "monday": {"subject": "CEUC101", "faculty": "NVP", "room": "322-A", "type": "LAB"},
+        "tuesday": {"subject": "CEUC101", "faculty": "GKG", "room": "322-A", "type": "LAB"},
+        "wednesday": {"subject": "HSUA101", "faculty": "PZ", "room": "322-A", "type": "LECTURE"},
+        "thursday": {"subject": "CEUC101/PSUD101", "faculty": "BBS/DS", "room": "323-A/321", "type": "LAB"},
+        "friday": {"subject": "CEUC101", "faculty": "NVP", "room": "322-B", "type": "LAB"},
+        "saturday": {"subject": "FTUC001", "faculty": "SDP", "room": "", "type": "LECTURE"}
+      },
+      {
+        "time": "11:10-12:10",
+        "monday": {"subject": "PSUD101", "faculty": "PMP", "room": "321", "type": "LECTURE"},
+        "tuesday": {"subject": "EEUD101", "faculty": "AHP", "room": "123-A", "type": "LECTURE"},
+        "wednesday": {"subject": "ITUC101", "faculty": "MAU", "room": "323-B", "type": "LECTURE"},
+        "thursday": {"subject": "CEUC101", "faculty": "GKG", "room": "323-A", "type": "LECTURE"},
+        "friday": {"subject": "MSUD101", "faculty": "RBC", "room": "322-A", "type": "LECTURE"},
+        "saturday": {"subject": "", "faculty": "", "room": "", "type": ""}
+      },
+      {
+        "time": "12:10-13:10",
+        "monday": {"subject": "MSUD101 (T)", "faculty": "JPC/JJG", "room": "322-A", "type": "TUTORIAL"},
+        "tuesday": {"subject": "GAP", "faculty": "GKG", "room": "323-B", "type": "LECTURE"},
+        "wednesday": {"subject": "LIB/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "thursday": {"subject": "LR/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "friday": {"subject": "LR/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "saturday": {"subject": "", "faculty": "", "room": "", "type": ""}
+      },
+      {
+        "time": "13:10-14:10",
+        "monday": {"subject": "PSUD101/CEUC101", "faculty": "PMP/GKG", "room": "321/323", "type": "LECTURE"},
+        "tuesday": {"subject": "EEUD101/ITUC101", "faculty": "AHP/MAU", "room": "123-A/323-B", "type": "LECTURE"},
+        "wednesday": {"subject": "MSUD101", "faculty": "RBC", "room": "322-A", "type": "LECTURE"},
+        "thursday": {"subject": "CUUV103", "faculty": "ANR", "room": "SPORTS", "type": "PRACTICAL"},
+        "friday": {"subject": "PSUD101", "faculty": "PMP", "room": "321", "type": "LECTURE"},
+        "saturday": {"subject": "", "faculty": "", "room": "", "type": ""}
+      },
+      {
+        "time": "14:20-15:20",
+        "monday": {"subject": "CUUV103", "faculty": "ANR", "room": "SPORTS", "type": "PRACTICAL"},
+        "tuesday": {"subject": "CUUV102", "faculty": "ANR", "room": "SPORTS", "type": "PRACTICAL"},
+        "wednesday": {"subject": "MSUD101", "faculty": "JPC", "room": "322-A", "type": "LECTURE"},
+        "thursday": {"subject": "EEUD101", "faculty": "AHP", "room": "322-A", "type": "LECTURE"},
+        "friday": {"subject": "ITUC101", "faculty": "MAU", "room": "323", "type": "LECTURE"},
+        "saturday": {"subject": "", "faculty": "", "room": "", "type": ""}
+      },
+      {
+        "time": "15:20-16:20",
+        "monday": {"subject": "Remedial/Extra", "faculty": "", "room": "", "type": "SESSION"},
+        "tuesday": {"subject": "Library/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "wednesday": {"subject": "Library/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "thursday": {"subject": "Library/SA", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "friday": {"subject": "Skill Augmentation", "faculty": "", "room": "", "type": "ACTIVITY"},
+        "saturday": {"subject": "", "faculty": "", "room": "", "type": ""}
+      }
+    ]
+  },
+  "semester2": {
+    "name": "B.Tech.(AI&ML) - Semester 2",
+    "schedule": [
+      {"time":"09:10-10:10","monday":{"subject":"MATH102","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"CS102","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"DL102","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"CHEM102","faculty":"","room":"","type":"LECTURE"},"friday":{"subject":"AI102","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"10:10-11:10","monday":{"subject":"CS102 Lab","faculty":"","room":"","type":"LAB"},"tuesday":{"subject":"MATH102","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"AI102","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"DL102 Lab","faculty":"","room":"","type":"LAB"},"friday":{"subject":"CS102","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"11:10-12:10","monday":{"subject":"Workshop","faculty":"","room":"","type":"PRACTICAL"},"tuesday":{"subject":"CS102","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"MATH102","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"AI102","faculty":"","room":"","type":"LECTURE"},"friday":{"subject":"DL102","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"12:10-13:10","monday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Counselling","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"13:10-14:10","monday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"friday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"14:20-15:20","monday":{"subject":"Physical Ed","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"tuesday":{"subject":"CUUV102","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"wednesday":{"subject":"CUUV103","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"thursday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"friday":{"subject":"Skill Augmentation","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"15:20-16:20","monday":{"subject":"Remedial/Extra","faculty":"","room":"","type":"SESSION"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Student Council","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}}
+    ]
+  },
+  "semester3": {
+    "name": "B.Tech.(AI&ML) - Semester 3",
+    "schedule": [
+      {"time":"09:10-10:10","monday":{"subject":"DSA","faculty":"DKS","room":"324-B","type":"LECTURE"},"tuesday":{"subject":"DAPY","faculty":"PT","room":"324-B","type":"LECTURE"},"wednesday":{"subject":"WT","faculty":"NPK","room":"324-B","type":"LECTURE"},"thursday":{"subject":"WT","faculty":"NPK","room":"324-B","type":"LECTURE"},"friday":{"subject":"DSA","faculty":"NB","room":"324-B","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"10:10-11:10","monday":{"subject":"AI (PD)","faculty":"PD","room":"324-B","type":"LECTURE"},"tuesday":{"subject":"DCN","faculty":"NHB","room":"324-B","type":"LECTURE"},"wednesday":{"subject":"OOP","faculty":"MR","room":"324-B","type":"LECTURE"},"thursday":{"subject":"OOP","faculty":"MR","room":"324-B","type":"LECTURE"},"friday":{"subject":"Lab/Practical","faculty":"","room":"","type":"LAB"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"11:10-12:10","monday":{"subject":"Tutorial","faculty":"","room":"","type":"TUTORIAL"},"tuesday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"wednesday":{"subject":"Practice","faculty":"","room":"","type":"PRACTICAL"},"thursday":{"subject":"Guest Lecture","faculty":"","room":"","type":"LECTURE"},"friday":{"subject":"DSA Revision","faculty":"","room":"","type":"SESSION"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"12:10-13:10","monday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Counselling","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"13:10-14:10","monday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"ML Lab","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"ML Lab","faculty":"","room":"","type":"LAB"},"friday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"14:20-15:20","monday":{"subject":"CUUV103","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"tuesday":{"subject":"CUUV102","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"wednesday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"thursday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"friday":{"subject":"Skill Augmentation","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"15:20-16:20","monday":{"subject":"Remedial/Extra","faculty":"","room":"","type":"SESSION"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Student Meeting","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}}
+    ]
+  },
+  "semester4": {
+    "name": "B.Tech.(AI&ML) - Semester 4",
+    "schedule": [
+      {"time":"09:10-10:10","monday":{"subject":"ML401","faculty":"DM","room":"324-C","type":"LECTURE"},"tuesday":{"subject":"DB401","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"OS401","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"STAT401","faculty":"","room":"","type":"LECTURE"},"friday":{"subject":"COA401","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"10:10-11:10","monday":{"subject":"DB Lab","faculty":"","room":"","type":"LAB"},"tuesday":{"subject":"OS Lab","faculty":"","room":"","type":"LAB"},"wednesday":{"subject":"Statistics","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"COA Lab","faculty":"","room":"","type":"LAB"},"friday":{"subject":"ML Project","faculty":"","room":"","type":"LAB"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"11:10-12:10","monday":{"subject":"Tutorial","faculty":"","room":"","type":"TUTORIAL"},"tuesday":{"subject":"Group Work","faculty":"","room":"","type":"PRACTICAL"},"wednesday":{"subject":"Guest Lecture","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"friday":{"subject":"Revision","faculty":"","room":"","type":"SESSION"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"12:10-13:10","monday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Counselling","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"13:10-14:10","monday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"Lab","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"Lab","faculty":"","room":"","type":"LAB"},"friday":{"subject":"Seminar","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"14:20-15:20","monday":{"subject":"CUUV103","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"tuesday":{"subject":"CUUV102","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"wednesday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"thursday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"friday":{"subject":"Skill Augmentation","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"15:20-16:20","monday":{"subject":"Remedial/Extra","faculty":"","room":"","type":"SESSION"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Student Council","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}}
+    ]
+  },
+  "semester5": {
+    "name": "B.Tech.(AI&ML) - Semester 5",
+    "schedule": [
+      {"time":"09:10-10:10","monday":{"subject":"DV","faculty":"PT","room":"324-C","type":"LECTURE"},"tuesday":{"subject":"CP1","faculty":"DKS","room":"324-A","type":"LECTURE"},"wednesday":{"subject":"CP2","faculty":"DKS","room":"324-A","type":"LECTURE"},"thursday":{"subject":"FSWD","faculty":"DM","room":"324-C","type":"LECTURE"},"friday":{"subject":"MLPR","faculty":"PD","room":"324-C","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"10:10-11:10","monday":{"subject":"CNS","faculty":"NPK","room":"324-C","type":"LECTURE"},"tuesday":{"subject":"RM","faculty":"DM","room":"325","type":"LECTURE"},"wednesday":{"subject":"MLPR","faculty":"PD","room":"324-D","type":"LECTURE"},"thursday":{"subject":"FSWD","faculty":"DM","room":"324-C","type":"LECTURE"},"friday":{"subject":"CNS","faculty":"NPK","room":"324-C","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"11:10-12:10","monday":{"subject":"Project II","faculty":"NHB","room":"","type":"LAB"},"tuesday":{"subject":".NET","faculty":"AM","room":"324-C","type":"LECTURE"},"wednesday":{"subject":"MLPR Lab","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"MAD","faculty":"DR","room":"324-C","type":"LECTURE"},"friday":{"subject":"ES","faculty":"GKG","room":"325","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"12:10-13:10","monday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"LR/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Counselling","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"13:10-14:10","monday":{"subject":"Labs/Work","faculty":"","room":"","type":"PRACTICAL"},"tuesday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"wednesday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"Seminar","faculty":"","room":"","type":"LECTURE"},"friday":{"subject":"Project","faculty":"","room":"","type":"LAB"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"14:20-15:20","monday":{"subject":"CUUV103","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"tuesday":{"subject":"CUUV102","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"wednesday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"thursday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"friday":{"subject":"Skill Augmentation","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"15:20-16:20","monday":{"subject":"Remedial/Extra","faculty":"","room":"","type":"SESSION"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Student Event","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}}
+    ]
+  },
+  "semester6": {
+    "name": "B.Tech.(AI&ML) - Semester 6",
+    "schedule": [
+      {"time":"09:10-10:10","monday":{"subject":"DL601","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"NLP601","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"CV601","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"AIPROJ","faculty":"","room":"","type":"PROJECT"},"friday":{"subject":"CLOUD","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"10:10-11:10","monday":{"subject":"DL Lab","faculty":"","room":"","type":"LAB"},"tuesday":{"subject":"NLP Lab","faculty":"","room":"","type":"LAB"},"wednesday":{"subject":"CV Lab","faculty":"","room":"","type":"LAB"},"thursday":{"subject":"Project Work","faculty":"","room":"","type":"PROJECT"},"friday":{"subject":"Cloud Lab","faculty":"","room":"","type":"LAB"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"11:10-12:10","monday":{"subject":"Project","faculty":"","room":"","type":"PROJECT"},"tuesday":{"subject":"Seminar","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"Seminar","faculty":"","room":"","type":"LECTURE"},"thursday":{"subject":"Project","faculty":"","room":"","type":"PROJECT"},"friday":{"subject":"Project","faculty":"","room":"","type":"PROJECT"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"12:10-13:10","monday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Counselling","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"13:10-14:10","monday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"tuesday":{"subject":"Elective","faculty":"","room":"","type":"LECTURE"},"wednesday":{"subject":"Project","faculty":"","room":"","type":"PROJECT"},"thursday":{"subject":"Project","faculty":"","room":"","type":"PROJECT"},"friday":{"subject":"Seminar","faculty":"","room":"","type":"LECTURE"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"14:20-15:20","monday":{"subject":"CUUV103","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"tuesday":{"subject":"CUUV102","faculty":"ANR","room":"SPORTS","type":"PRACTICAL"},"wednesday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"thursday":{"subject":"Remedial","faculty":"","room":"","type":"SESSION"},"friday":{"subject":"Placement","faculty":"","room":"","type":"ACTIVITY"},"saturday":{"subject":"","faculty":"","room":"","type":""}},
+      {"time":"15:20-16:20","monday":{"subject":"Remedial/Extra","faculty":"","room":"","type":"SESSION"},"tuesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"wednesday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"thursday":{"subject":"Library/SA","faculty":"","room":"","type":"ACTIVITY"},"friday":{"subject":"Student Council","faculty":"","room":"","type":"MEETING"},"saturday":{"subject":"","faculty":"","room":"","type":""}}
+    ]
+  }
+}

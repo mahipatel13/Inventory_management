@@ -1,0 +1,55 @@
+.enter-strength {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: clamp(1rem, 4vw, 2rem);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.enter-strength form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.form-grid input,
+.form-grid select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.revoke-section {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.revoke-section textarea {
+  min-height: 100px;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  resize: vertical;
+}
+
+.enter-strength button {
+  justify-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary-color);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.status-message {
+  margin: 0;
+  color: #059669;
+  font-weight: 600;
+}

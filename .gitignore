@@ -1,0 +1,44 @@
+<<<<<<< HEAD
+# dependencies
+node_modules/
+
+# environment variables
+.env
+
+# build files (optional)
+dist/
+build/
+
+# system files
+.DS_Store
+=======
+# ======================
+# Common ignore patterns
+# ======================
+
+# Node dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+frontend/build/
+backend/dist/
+dist/
+build/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+>>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da

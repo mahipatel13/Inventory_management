@@ -1,0 +1,133 @@
+/* Match Dashboard/EnterStrength/Reports card look */
+.hardware-inventory,
+.issue-hardware,
+.active-issues,
+.due-today,
+.issue-history {
+  background: #ffffff;
+  padding: clamp(1rem, 4vw, 2rem);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.hardware-inventory h2,
+.issue-hardware h2,
+.active-issues h2,
+.due-today h2,
+.issue-history h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+/* Forms */
+.hardware-form,
+.issue-hardware form,
+.history-filters {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Make each field a neat "box" (label above input) */
+.hardware-form > div,
+.issue-hardware form > div,
+.history-filters > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.hardware-form label,
+.issue-hardware label,
+.history-filters label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.hardware-form input,
+.hardware-form select,
+.issue-hardware input,
+.issue-hardware select,
+.history-filters input,
+.history-filters select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+/* Make the inline "Other" grid fields consistent */
+.issue-hardware .other-fields > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+/* Let the submit button span the full row so it doesn't look misaligned */
+.issue-hardware form > button,
+.hardware-form > button,
+.history-filters > button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+/* Buttons */
+.hardware-form button,
+.issue-hardware button,
+.active-issues button,
+.history-filters button {
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(31, 111, 235, 0.1);
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hardware-form button:hover,
+.issue-hardware button:hover,
+.active-issues button:hover,
+.history-filters button:hover {
+  background: rgba(31, 111, 235, 0.2);
+}
+
+/* Tables */
+.hardware-inventory table,
+.active-issues table,
+.due-today table,
+.issue-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hardware-inventory th,
+.hardware-inventory td,
+.active-issues th,
+.active-issues td,
+.due-today th,
+.due-today td,
+.issue-history th,
+.issue-history td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+/* Optional: zebra rows for readability */
+.issue-history tbody tr:nth-child(odd) {
+  background: #f9fafb;
+}
+
+/* Utility */
+.loading,
+.empty {
+  color: #6b7280;
+}

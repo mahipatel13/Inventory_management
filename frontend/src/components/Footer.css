@@ -1,0 +1,36 @@
+.site-footer {
+  margin-top: 2rem;
+  background: #0f172a; /* slate-900 */
+  color: #e5e7eb; /* gray-200 */
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.footer-brand {
+  font-weight: 700;
+}
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+.footer-link {
+  color: #93c5fd; /* blue-300 */
+  text-decoration: none;
+}
+.footer-link:hover {
+  color: #bfdbfe; /* blue-200 */
+}
+.footer-sep {
+  opacity: 0.5;
+}
+.footer-dept {
+  opacity: 0.9;
+}

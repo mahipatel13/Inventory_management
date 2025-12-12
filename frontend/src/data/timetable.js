@@ -1,0 +1,207 @@
+// Day-wise timetable structure. Each semester maps to an object where keys are days
+// and values are arrays of slot objects. This lets the UI render per-day schedules.
+const timetable = {
+  AIML1: {
+    // Semester 1 detailed weekly timetable (tabular slots matching the provided image)
+    Monday: [
+      { slot: '09:10 - 10:10', subject: 'MSUD101', subjectCode: 'MSUD101', faculty: 'JPC', room: '322-A', type: 'LECTURE' },
+      // 10:10-11:10 contains sectioned classes A-E in the image
+      {
+        slot: '10:10 - 11:10',
+        sections: {
+          A: { subject: 'CNS', subjectCode: 'AIML301', faculty: 'NPK', room: '324-A' },
+          B: { subject: 'CNS', subjectCode: 'AIML301', faculty: 'NPK', room: '324-A' },
+          C: { subject: 'MLPR', subjectCode: 'AIML303', faculty: 'PD', room: '325' },
+          D: { subject: 'MLPR', subjectCode: 'AIML303', faculty: 'PD', room: '325' },
+          E: { subject: 'PROJ', subjectCode: 'AIML305', faculty: 'NHB', room: '324-D' },
+        },
+      },
+      { slot: '11:10 - 12:10', subject: 'CNS (all)', subjectCode: 'AIML301', faculty: 'NPK', room: '324-C', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'HS (German)', subjectCode: 'HS', faculty: 'VR', room: '322-B', type: 'LECTURE' },
+      { slot: '14:10 - 15:10', subject: 'HS/Remedial', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '15:10 - 16:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+    ],
+    Tuesday: [
+      { slot: '09:10 - 10:10', subject: 'EEUD101', subjectCode: 'EEUD101', faculty: 'AHP', room: '322-A', type: 'LECTURE' },
+      {
+        slot: '10:10 - 11:10',
+        sections: {
+          A: { subject: 'DV', subjectCode: 'AIML304', room: '324-A' },
+          B: { subject: 'PROJ', subjectCode: 'AIML305', room: '324-A' },
+          C: { subject: 'DV', subjectCode: 'AIML304', room: '324-A' },
+          D: { subject: 'PROJ', subjectCode: 'AIML305', room: '324-A' },
+          E: { subject: 'CNS', subjectCode: 'AIML301', room: '324-A' },
+        },
+      },
+      { slot: '11:10 - 12:10', subject: 'RM / IT Workshop', subjectCode: 'AIML312/ITUC101', faculty: '', room: '323', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'HS CS', subjectCode: 'HS', faculty: 'BK', room: '324-C', type: 'LECTURE' },
+      { slot: '14:10 - 15:10', subject: 'CUUV / Sports Ground', subjectCode: 'CUUV102', faculty: 'ANR', room: 'Sports Ground', type: 'ACTIVITY' },
+      { slot: '15:10 - 16:10', subject: 'Library Reading / Sports', subjectCode: '', faculty: '', room: 'LR/SA', type: 'ACTIVITY' },
+    ],
+    Wednesday: [
+      { slot: '09:10 - 10:10', subject: 'HSUA101', subjectCode: 'HSUA101', faculty: 'PZ', room: '322-A', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'CEUC101', subjectCode: 'CEUC101', faculty: 'GKG', room: '323-B', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'CEUC101 / PSUD101', subjectCode: 'CEUC101/PSUD101', faculty: 'GKG/DS', room: '323-8 / 323-A', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'MSUD101 (Lab/Session)', subjectCode: 'MSUD101', faculty: 'RBC', room: '322-A', type: 'LECTURE' },
+      { slot: '14:10 - 15:10', subject: 'Skill Augmentation / Library', subjectCode: '', faculty: '', room: 'LR/SA', type: 'ACTIVITY' },
+      { slot: '15:10 - 16:10', subject: 'Counselling / Meetings', subjectCode: '', faculty: '', room: '', type: 'MEETING' },
+    ],
+    Thursday: [
+      { slot: '09:10 - 10:10', subject: 'CEUC101', subjectCode: 'CEUC101', faculty: 'GKG', room: '323-B', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'PSUD101', subjectCode: 'PSUD101', faculty: 'DS', room: '323-A', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'EEUD101 / Practical', subjectCode: 'EEUD101', faculty: 'AHP', room: '322-A', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'MSUD101 / JPC', subjectCode: 'MSUD101', faculty: 'JPC/JJG', room: '322-A', type: 'LECTURE' },
+      { slot: '14:10 - 15:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+      { slot: '15:10 - 16:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+    ],
+    Friday: [
+      { slot: '09:10 - 10:10', subject: 'EEUD101', subjectCode: 'EEUD101', faculty: 'AHP', room: '322-A', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'CEUC101', subjectCode: 'CEUC101', faculty: 'NVP', room: '322-B', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'PSUD101 / CEUC101', subjectCode: 'PSUD101/CEUC101', faculty: 'Various', room: '322-A / 323', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'Skill Augmentation / Counselling', subjectCode: '', faculty: '', room: '', type: 'SESSION' },
+      { slot: '14:10 - 15:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '15:10 - 16:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Saturday: [
+      { slot: '09:10 - 10:10', subject: 'FTUC001 (Audit)', subjectCode: 'FTUC001', faculty: 'SDP', room: '', type: 'AUDIT' },
+      { slot: '10:10 - 11:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '11:10 - 12:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+  },
+
+  AIML2: {
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+  },
+
+  AIML3: {
+    // Semester 3 detailed weekly timetable (based on provided sem-3 image)
+    Monday: [
+      { slot: '09:10 - 10:10', subject: 'DSA', subjectCode: 'DSA301', faculty: 'Dr. Mehta', room: '324-B', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'DAPY', subjectCode: 'DAPY302', faculty: 'Dr. NVP', room: '324-A', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'DCN', subjectCode: 'DCN303', faculty: 'Dr. GAP', room: '323', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'WT (Web Tech)', subjectCode: 'WT304', faculty: 'Prof. Bhargav', room: '322-A', type: 'LECTURE' },
+      { slot: '14:10 - 15:10', subject: 'OOP (Lab)', subjectCode: 'OOP305', faculty: 'Lab Staff', room: 'LAB-2', type: 'LAB' },
+      { slot: '15:10 - 16:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+    ],
+    Tuesday: [
+      { slot: '09:10 - 10:10', subject: 'DAPY (Practical)', subjectCode: 'DAPY302', faculty: 'Dr. NVP', room: 'LAB-3', type: 'LAB' },
+      { slot: '10:10 - 11:10', subject: 'DSA', subjectCode: 'DSA301', faculty: 'Dr. Mehta', room: '324-B', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'DCN', subjectCode: 'DCN303', faculty: 'Dr. GAP', room: '323', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'WT (Lab/Workshop)', subjectCode: 'WT304', faculty: 'Prof. Bhargav', room: '323-A', type: 'LAB' },
+      { slot: '14:10 - 15:10', subject: 'Tutorial / LR', subjectCode: '', faculty: '', room: 'LR/SA', type: 'ACTIVITY' },
+      { slot: '15:10 - 16:10', subject: 'CU (Sports/Activity)', subjectCode: 'CUUV', faculty: 'ANR', room: 'Sports Ground', type: 'ACTIVITY' },
+    ],
+    Wednesday: [
+      { slot: '09:10 - 10:10', subject: 'HS (Communication)', subjectCode: 'HSUA', faculty: 'PZ', room: '322-A', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'DSA (Assignment/Quiz)', subjectCode: 'DSA301', faculty: 'Dr. Mehta', room: '324-B', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'DAPY / Lab', subjectCode: 'DAPY302', faculty: 'Lab Staff', room: 'LAB-3', type: 'LAB' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'DCN / Practical', subjectCode: 'DCN303', faculty: 'Dr. GAP', room: '323', type: 'LAB' },
+      { slot: '14:10 - 15:10', subject: 'Skill Augmentation / Library', subjectCode: '', faculty: '', room: 'LR/SA', type: 'ACTIVITY' },
+      { slot: '15:10 - 16:10', subject: 'Student Counselling / Meeting', subjectCode: '', faculty: '', room: '', type: 'MEETING' },
+    ],
+    Thursday: [
+      { slot: '09:10 - 10:10', subject: 'DCN', subjectCode: 'DCN303', faculty: 'Dr. GAP', room: '323', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'OOP (Theory)', subjectCode: 'OOP305', faculty: 'Prof. Bhargav', room: '324-A', type: 'LECTURE' },
+      { slot: '11:10 - 12:10', subject: 'CE / Elective', subjectCode: '', faculty: '', room: '', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'Practical / Lab', subjectCode: '', faculty: '', room: 'LAB-1', type: 'LAB' },
+      { slot: '14:10 - 15:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+      { slot: '15:10 - 16:10', subject: 'Remedial / Extra', subjectCode: '', faculty: '', room: '', type: 'OTHER' },
+    ],
+    Friday: [
+      { slot: '09:10 - 10:10', subject: 'DSA / Revision', subjectCode: 'DSA301', faculty: 'Dr. Mehta', room: '324-B', type: 'LECTURE' },
+      { slot: '10:10 - 11:10', subject: 'DAPY / Lab', subjectCode: 'DAPY302', faculty: 'Dr. NVP', room: 'LAB-3', type: 'LAB' },
+      { slot: '11:10 - 12:10', subject: 'WT / Project Slot', subjectCode: 'WT304', faculty: 'Prof. Bhargav', room: '323-A', type: 'LECTURE' },
+      { slot: '12:10 - 13:10', subject: 'Lunch/Break', subjectCode: '', faculty: '', room: '', type: 'BREAK' },
+      { slot: '13:10 - 14:10', subject: 'Aptitude / Counselling', subjectCode: '', faculty: '', room: '', type: 'SESSION' },
+      { slot: '14:10 - 15:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '15:10 - 16:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Saturday: [
+      { slot: '09:10 - 10:10', subject: 'FTUC001 (Audit)', subjectCode: 'FTUC001', faculty: 'SDP', room: '', type: 'AUDIT' },
+      { slot: '10:10 - 11:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '11:10 - 12:10', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+  },
+
+  AIML4: {
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+  },
+
+  AIML5: {
+    Monday: [
+      { slot: '09:15 - 10:00', subject: 'DV', subjectCode: 'AIML304', faculty: 'PT', room: '324-C', type: 'LECTURE' },
+      { slot: '10:00 - 10:45', subject: 'CNS', subjectCode: 'AIML301', faculty: 'NPK', room: '324-C', type: 'LECTURE' },
+      { slot: '10:45 - 11:30', subject: 'CNS / MLPR / PROJ (sections)', subjectCode: 'AIML301/AIML303/AIML305', faculty: 'Various', room: '324-A/324-B/325', type: 'LECTURE' },
+      { slot: '11:30 - 12:15', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:00 - 13:45', subject: 'HS (German)', subjectCode: 'HS', faculty: 'VR', room: '322-B', type: 'LECTURE' },
+      { slot: '13:45 - 14:30', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Tuesday: [
+      { slot: '09:15 - 10:00', subject: 'CP1 / DKS', subjectCode: 'AIML311', faculty: 'DKS', room: '324-A', type: 'LECTURE' },
+      { slot: '10:00 - 10:45', subject: 'RM (Research Methodology)', subjectCode: 'AIML312', faculty: 'DM', room: '325', type: 'LECTURE' },
+      { slot: '10:45 - 11:30', subject: 'DV / PROJ / CNS (sections)', subjectCode: 'AIML304/AIML305/AIML301', faculty: 'Various', room: '324-A/324-C/325', type: 'LECTURE' },
+      { slot: '11:30 - 12:15', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:00 - 13:45', subject: 'HS CS', subjectCode: 'HS', faculty: 'BK', room: '324-C', type: 'LECTURE' },
+      { slot: '13:45 - 14:30', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Wednesday: [
+      { slot: '09:15 - 10:00', subject: 'CP2 / DKS', subjectCode: 'AIML311', faculty: 'DKS', room: '324-A', type: 'LECTURE' },
+      { slot: '10:00 - 10:45', subject: 'MLPR', subjectCode: 'AIML303', faculty: 'PD', room: '324-D', type: 'LECTURE' },
+      { slot: '10:45 - 11:30', subject: 'MLPR / PD (lab/lecture)', subjectCode: 'AIML303', faculty: 'PD', room: '324-C', type: 'LECTURE' },
+      { slot: '11:30 - 12:15', subject: 'CNS', subjectCode: 'AIML301', faculty: 'NPK', room: '324-C', type: 'LECTURE' },
+      { slot: '13:00 - 13:45', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:45 - 14:30', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Thursday: [
+      { slot: '09:15 - 10:00', subject: 'MLPR PD', subjectCode: 'AIML303', faculty: 'PD', room: '324-D', type: 'LECTURE' },
+      { slot: '10:00 - 10:45', subject: 'FSWD', subjectCode: 'AIML302', faculty: 'DM', room: '324-C', type: 'LECTURE' },
+      { slot: '10:45 - 11:30', subject: 'MAD / .NET / ES (parallel sections)', subjectCode: 'AIML308/AIML310/AIML309', faculty: 'Various', room: '324-C/325/324-D', type: 'LECTURE' },
+      { slot: '11:30 - 12:15', subject: 'NPK / Free', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:00 - 13:45', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:45 - 14:30', subject: 'FSWD (lab)', subjectCode: 'AIML302', faculty: 'DM', room: 'DM', type: 'LAB' },
+    ],
+    Friday: [
+      { slot: '09:15 - 10:00', subject: 'MLPR / PD', subjectCode: 'AIML303', faculty: 'PD', room: '324-C', type: 'LECTURE' },
+      { slot: '10:00 - 10:45', subject: 'PD / CNS', subjectCode: 'AIML303/AIML301', faculty: 'Various', room: '324-C', type: 'LECTURE' },
+      { slot: '10:45 - 11:30', subject: 'MAD / .NET / ES (sections)', subjectCode: 'AIML308/AIML310/AIML309', faculty: 'Various', room: '324-C/324-A/325', type: 'LECTURE' },
+      { slot: '11:30 - 12:15', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '13:00 - 13:45', subject: 'Aptitude Session / Counselling', subjectCode: '', faculty: '', room: '', type: 'SESSION' },
+      { slot: '13:45 - 14:30', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+    Saturday: [
+      { slot: '09:15 - 10:00', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '10:00 - 10:45', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+      { slot: '10:45 - 11:30', subject: '', subjectCode: '', faculty: '', room: '', type: '' },
+    ],
+  },
+
+  AIML6: {
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+  },
+};
+
+export default timetable;

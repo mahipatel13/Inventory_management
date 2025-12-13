@@ -33,6 +33,8 @@ const login = async (credentials) => {
   return response;
 };
 
+const register = (data) => apiClient.post('/auth/register', data);
+
 const requestPasswordReset = (payload) => apiClient.post('/auth/forgot-password/request', payload);
 const resetPasswordWithOtp = (payload) => apiClient.post('/auth/forgot-password/reset', payload);
 
@@ -73,6 +75,7 @@ const deleteIssue = (issueId) => apiClient.delete(`/hardware/issues/${issueId}`)
 
 export default {
   login,
+  register,
   requestPasswordReset,
   resetPasswordWithOtp,
   fetchDailySummary,

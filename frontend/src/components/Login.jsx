@@ -4,6 +4,7 @@ import './Login.css';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -13,13 +14,14 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!username || !password) {
-      setError('Username and password are required.');
+    if ((!username && !email) || !password) {
+      setError('Username or email and password are required.');
       return;
     }
 
     try {
-      await onLogin(username, password);
+      const identifier = email || username;
+      await onLogin(identifier, password);
       // After successful login, redirect to where user wanted to go or dashboard
       const from = location.state?.from?.pathname || '/dashboard';
       navigate(from, { replace: true });
@@ -42,6 +44,18 @@ const Login = ({ onLogin }) => {
             setUsername(e.target.value);
           }}
           placeholder="Enter username"
+        />
+
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setError('');
+            setEmail(e.target.value);
+          }}
+          placeholder="Enter email"
         />
 
         <label htmlFor="password">Password</label>
@@ -71,6 +85,10 @@ const Login = ({ onLogin }) => {
           </a>
           <button type="submit">Login</button>
         </div>
+
+        <p>
+          Don't have an account? <a href="#" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>Register</a>
+        </p>
       </form>
     </div>
   );

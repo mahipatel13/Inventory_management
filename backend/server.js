@@ -59,6 +59,11 @@ const initializeDefaultUser = async () => {
     exists.email = defaultEmail;
     await exists.save();
   }
+
+  // Update password to ensure it's set correctly
+  exists.password = defaultPassword;
+  await exists.save();
+  console.log(`Default user updated: ${defaultUsername}/${defaultPassword}`);
 };
 
 const initializeDefaultHardware = async () => {

@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Login from './components/Login';
+import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import Reports from './components/Reports';
@@ -115,6 +116,10 @@ const App = () => {
       <main>
         <Routes>
           <Route
+            path="/register"
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register />}
+          />
+          <Route
             path="/login"
             element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />}
           />
@@ -211,7 +216,7 @@ const App = () => {
           <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>
       </main>
-      {location.pathname !== '/login' && location.pathname !== '/forgot-password' && <Footer />}
+      {location.pathname !== '/login' && location.pathname !== '/forgot-password' && location.pathname !== '/register' && <Footer />}
     </div>
   );
 };

@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,14 +21,14 @@ const ForgotPassword = () => {
     setError('');
     setMessage('');
 
-    if (!username) {
-      setError('Username is required.');
+    if (!email.trim()) {
+      setError('Email is required.');
       return;
     }
 
     try {
       setLoading(true);
-      const res = await strengthService.requestPasswordReset({ username });
+      const res = await strengthService.requestPasswordReset({ email: email.trim() });
       setMessage(res?.data?.message || 'OTP sent.');
       setStep(2);
     } catch (err) {
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
       const res = await strengthService.resetPasswordWithOtp({
-        username,
+        email: email.trim(),
         otp,
         newPassword,
       });
@@ -69,6 +69,7 @@ const ForgotPassword = () => {
       setOtp('');
       setNewPassword('');
       setConfirmPassword('');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err?.response?.data?.message || 'Failed to reset password.');
     } finally {
@@ -81,16 +82,16 @@ const ForgotPassword = () => {
       <form className="login-form" onSubmit={step === 1 ? requestOtp : resetPassword}>
         <h2>Forgot Password</h2>
 
-        <label htmlFor="username">Username</label>
+        <label htmlFor="email">Email</label>
         <input
-          id="username"
-          type="text"
-          value={username}
+          id="email"
+          type="email"
+          value={email}
           onChange={(e) => {
             setError('');
-            setUsername(e.target.value);
+            setEmail(e.target.value);
           }}
-          placeholder="Enter username"
+          placeholder="Enter email"
           disabled={step === 2 || loading}
         />
 
@@ -155,9 +156,9 @@ const ForgotPassword = () => {
           </button>
         )}
 
-        <button type="button" className="link-button" onClick={() => navigate('/login')}>
-          Back to login
-        </button>
+        <p>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }} className="forgot-link">Back to login</a>
+        </p>
 
         {step === 2 && (
           <button
@@ -173,7 +174,7 @@ const ForgotPassword = () => {
             }}
             disabled={loading}
           >
-            Change username / resend OTP
+            Change email / resend OTP
           </button>
         )}
       </form>

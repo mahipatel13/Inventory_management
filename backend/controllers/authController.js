@@ -20,7 +20,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Username and password are required.' });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      $or: [
+        { username: username },
+        { email: username }
+      ]
+    });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials.' });
@@ -45,15 +50,57 @@ const login = async (req, res) => {
   }
 };
 
-const requestPasswordReset = async (req, res) => {
+const register = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!username) {
-      return res.status(400).json({ message: 'Username is required.' });
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'Username, email, and password are required.' });
     }
 
-    const user = await User.findOne({ username });
+    if (String(password).length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long.' });
+    }
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: 'Username already exists.' });
+    }
+
+    if (email) {
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        return res.status(400).json({ message: 'Email already exists.' });
+      }
+    }
+
+    const user = await User.create({
+      username,
+      email: email || '',
+      password,
+      role: 'staff'
+    });
+
+    return res.status(201).json({ message: 'User registered successfully.' });
+  } catch (error) {
+    console.error('Register error', error);
+    return res.status(500).json({ message: 'Something went wrong.' });
+  }
+};
+
+const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email || !email.trim()) {
+      return res.status(400).json({ message: 'Email is required.' });
+    }
+
+    if (!email.toLowerCase().endsWith('@gmail.com') && !email.toLowerCase().endsWith('@charusat.ac.in')) {
+      return res.status(400).json({ message: 'Email must be a Gmail (@gmail.com) or Charusat (@charusat.ac.in) address.' });
+    }
+
+    const user = await User.findOne({ email: email.trim() });
 
     // For security, respond the same way even if user doesn't exist.
     if (!user) {
@@ -85,17 +132,17 @@ const requestPasswordReset = async (req, res) => {
 
 const resetPasswordWithOtp = async (req, res) => {
   try {
-    const { username, otp, newPassword } = req.body;
+    const { email, otp, newPassword } = req.body;
 
-    if (!username || !otp || !newPassword) {
-      return res.status(400).json({ message: 'Username, OTP, and new password are required.' });
+    if (!email || !email.trim() || !otp || !newPassword) {
+      return res.status(400).json({ message: 'Email, OTP, and new password are required.' });
     }
 
     if (String(newPassword).length < 6) {
       return res.status(400).json({ message: 'Password must be at least 6 characters long.' });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email: email.trim() });
     if (!user) {
       return res.status(400).json({ message: 'Invalid OTP or expired OTP.' });
     }
@@ -130,6 +177,7 @@ const resetPasswordWithOtp = async (req, res) => {
 
 module.exports = {
   login,
+  register,
   requestPasswordReset,
   resetPasswordWithOtp,
 };

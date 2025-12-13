@@ -58,7 +58,19 @@ const Login = ({ onLogin }) => {
 
         {error && <p className="error" role="alert">{error}</p>}
 
-        <button type="submit">Login</button>
+        <div className="button-row">
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/forgot-password');
+            }}
+            className="forgot-link"
+          >
+            Forgot password?
+          </a>
+          <button type="submit">Login</button>
+        </div>
       </form>
     </div>
   );

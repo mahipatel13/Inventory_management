@@ -42,13 +42,45 @@
 
 .login-form button {
   margin-top: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 1rem 2rem;
   border-radius: 8px;
   border: none;
   background: var(--primary-color);
   color: #ffffff;
   font-weight: 600;
+  font-size: 1.1rem;
   transition: background 0.2s ease;
+}
+
+.link-button {
+  margin-top: 0;
+  background: transparent;
+  color: var(--primary-color);
+  padding: 0;
+  text-align: left;
+}
+
+.link-button:hover {
+  background: transparent;
+  text-decoration: underline;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.forgot-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
 }
 
 .login-form button:hover {

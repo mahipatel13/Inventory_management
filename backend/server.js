@@ -40,11 +40,24 @@ app.use('/api/hardware', hardwareRoutes);
 const initializeDefaultUser = async () => {
   const defaultUsername = process.env.DEFAULT_USERNAME || 'aimladmin';
   const defaultPassword = process.env.DEFAULT_PASSWORD || 'aimlpass123';
+  const defaultEmail = process.env.DEFAULT_EMAIL || '';
 
   const exists = await User.findOne({ username: defaultUsername });
   if (!exists) {
-    await User.create({ username: defaultUsername, password: defaultPassword, role: 'admin' });
+    await User.create({
+      username: defaultUsername,
+      password: defaultPassword,
+      role: 'admin',
+      email: defaultEmail,
+    });
     console.log(`Default user created: ${defaultUsername}/${defaultPassword}`);
+    return;
+  }
+
+  // If the user already exists from earlier runs, backfill email if missing.
+  if (defaultEmail && !exists.email) {
+    exists.email = defaultEmail;
+    await exists.save();
   }
 };
 

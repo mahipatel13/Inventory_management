@@ -33,6 +33,9 @@ const login = async (credentials) => {
   return response;
 };
 
+const requestPasswordReset = (payload) => apiClient.post('/auth/forgot-password/request', payload);
+const resetPasswordWithOtp = (payload) => apiClient.post('/auth/forgot-password/reset', payload);
+
 const fetchDailySummary = (semesterCode) => {
   if (semesterCode) return apiClient.get(`/strength/summary/daily?semester=${semesterCode}`);
   return apiClient.get('/strength/summary/daily');
@@ -70,6 +73,8 @@ const deleteIssue = (issueId) => apiClient.delete(`/hardware/issues/${issueId}`)
 
 export default {
   login,
+  requestPasswordReset,
+  resetPasswordWithOtp,
   fetchDailySummary,
   submitStrength,
   fetchReport,

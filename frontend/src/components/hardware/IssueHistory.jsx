@@ -40,6 +40,7 @@ const IssueHistory = () => {
               <th>Hardware</th>
               <th>Student</th>
               <th>Student ID</th>
+              <th>contact number</th>
               <th>Issued Date</th>
               <th>Due Date</th>
               <th>Returned</th>
@@ -53,6 +54,7 @@ const IssueHistory = () => {
                 <td>{it.hardware?.name}</td>
                 <td>{it.studentName}</td>
                 <td>{it.studentId}</td>
+                <td>{it.contact}</td>
                 <td>{it.issueDate ? new Date(it.issueDate).toLocaleDateString() : '-'}</td>
                 <td>{it.dueDate ? new Date(it.dueDate).toLocaleDateString() : '-'}</td>
                 <td>{it.returnDate ? new Date(it.returnDate).toLocaleDateString() : '-'}</td>

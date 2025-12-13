@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import Reports from './components/Reports';
 import Navbar from './components/Navbar';
@@ -118,6 +119,10 @@ const App = () => {
             element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />}
           />
           <Route
+            path="/forgot-password"
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <ForgotPassword />}
+          />
+          <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
@@ -206,7 +211,7 @@ const App = () => {
           <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
         </Routes>
       </main>
-      <Footer />
+      {location.pathname !== '/login' && location.pathname !== '/forgot-password' && <Footer />}
     </div>
   );
 };

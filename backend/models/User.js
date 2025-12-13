@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
     password: {
       type: String,
       required: true,
@@ -20,6 +25,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['admin', 'staff'],
       default: 'staff',
+    },
+    resetOtpHash: {
+      type: String,
+      default: null,
+    },
+    resetOtpExpiresAt: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }

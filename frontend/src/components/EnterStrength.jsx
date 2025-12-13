@@ -7,6 +7,9 @@ const initialForm = {
   date: '',
   day: '',
   subject: '',
+  // slotKey is the <select> value (includes day to keep it unique across days)
+  slotKey: '',
+  // slot is the actual slot time string that we store/submit (e.g. "09:10 - 10:10")
   slot: '',
   room: '',
   type: '',
@@ -54,22 +57,39 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     setStatus('');
-    setFormState((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
+
+    setFormState((prev) => {
+      const nextValue = type === 'checkbox' ? checked : value;
+      const next = { ...prev, [name]: nextValue };
+
+      // If the timetable scope changes, the previously selected slot may not exist anymore.
+      // Reset the slot-related fields so the <select> always reflects the user's choice.
+      if (name === 'semester' || name === 'day') {
+        return {
+          ...next,
+          slotKey: '',
+          slot: '',
+          subject: '',
+          room: '',
+          type: '',
+          faculty: '',
+        };
+      }
+
+      return next;
+    });
   };
 
   const handleSlotSelect = (event) => {
     const slotValue = event.target.value;
     // slotValue format: "Day||slot" or "||slot" (when flat list without day)
     const parts = slotValue.split('||');
-    const dayPart = parts[0] || undefined;
+    const dayPart = parts[0] ? parts[0] : undefined;
     const slotPart = parts[1] || parts[0] || '';
 
     const slotDetails = availableSlots.find((slot) => {
       const sameSlot = slot.slot === slotPart;
-      if (dayPart) return sameSlot && (slot._day === dayPart || slot._day === dayPart);
+      if (dayPart) return sameSlot && slot._day === dayPart;
       return sameSlot;
     });
 
@@ -84,7 +104,9 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
 
     setFormState((prev) => ({
       ...prev,
-      // store just the slot string (not the combined value)
+      // slotKey must match an <option value> so the selected item stays visible
+      slotKey: slotValue,
+      // slot is what we store/submit
       slot: slotPart,
       day: dayPart || prev.day,
       subject: slotDetails?.subjectCode || prev.subject,
@@ -98,15 +120,17 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
     event.preventDefault();
 
     try {
-      const token = sessionStorage.getItem('aiml_token');
+      const token = sessionStorage.getItem('aiml_token') || localStorage.getItem('token');
       if (!token) {
         setStatus('You are not logged in. Please log in and try again.');
         return;
       }
 
       const selectedSubject = filteredSubjects.find(sub => sub.code === formState.subject);
+      // Do not send UI-only fields like slotKey to the backend.
+      const { slotKey: _slotKey, ...formWithoutUiFields } = formState;
       const payload = {
-        ...formState,
+        ...formWithoutUiFields,
         studentStrength: Number(formState.studentStrength),
         subjectName: selectedSubject?.name || formState.subject,
         date: formState.date || new Date().toISOString(),
@@ -179,7 +203,7 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
           </select>
 
           <label htmlFor="slot">Slot</label>
-          <select id="slot" name="slot" value={formState.slot} onChange={handleSlotSelect} required>
+          <select id="slot" name="slot" value={formState.slotKey} onChange={handleSlotSelect} required>
             <option value="" disabled>
               Select slot
             </option>
@@ -206,6 +230,24 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             placeholder="Select date"
           />
 
+          <label htmlFor="subject">Subject</label>
+          <input
+            id="subject"
+            name="subject"
+            value={formState.subject}
+            onChange={handleChange}
+            list="subject-list"
+            placeholder="Subject"
+            required
+          />
+          <datalist id="subject-list">
+            {filteredSubjects.map((sub) => (
+              <option key={sub.code} value={sub.code}>
+                {sub.name}
+              </option>
+            ))}
+          </datalist>
+
           <label htmlFor="room">Room/Lab</label>
           <input
             id="room"
@@ -225,6 +267,16 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             <option value="Lab">Lab</option>
             <option value="Other">Other</option>
           </select>
+
+          <label htmlFor="faculty">Faculty</label>
+          <input
+            id="faculty"
+            name="faculty"
+            value={formState.faculty}
+            onChange={handleChange}
+            placeholder="Faculty name"
+            required
+          />
 
           <label htmlFor="studentStrength">Student Strength</label>
           <input

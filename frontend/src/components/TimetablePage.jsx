@@ -99,7 +99,6 @@ const TimetablePage = ({
     }
   };
 
-
   return (
     <section className="timetable-page">
       <header className="page-header">

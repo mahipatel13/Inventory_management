@@ -9,5 +9,7 @@ const router = express.Router();
 router.post('/', authMiddleware, strengthController.createStrengthEntry);
 router.get('/summary/daily', authMiddleware, strengthController.getDailySummary);
 router.get('/revokes', authMiddleware, strengthController.listRevokes);
+router.delete('/', authMiddleware, strengthController.deleteStrengthEntryByMeta);
+router.delete('/:id', authMiddleware, strengthController.deleteStrengthEntry);
 
 module.exports = router;

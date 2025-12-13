@@ -49,6 +49,9 @@ const fetchDownloadSavedReport = (params, config = {}) => apiClient.get('/report
 
 const fetchRevokes = () => apiClient.get('/strength/revokes');
 const deleteStrength = (id) => apiClient.delete(`/strength/${id}`);
+// Fallback for older summary payloads that don't include _id
+// meta can be { createdAt } OR a composite set of fields (see backend controller)
+const deleteStrengthByMeta = (meta) => apiClient.delete('/strength', { params: meta });
 
 // Hardware inventory
 const hardwareList = () => apiClient.get('/hardware');
@@ -86,4 +89,5 @@ export default {
   updateIssue,
   deleteIssue,
   deleteStrength,
+  deleteStrengthByMeta,
 };

@@ -37,7 +37,7 @@ export const backendSemesterToUi = (semesterObj) => {
       const cell = row?.[backendDay] || {};
       const subject = cell.subject || '';
       // backend may or may not provide a separate code field; avoid duplicating the subject in the UI
-      const subjectCode = cell.subjectCode || cell.code || '';
+      const subjectCode = cell.subjectCode || cell.code || cell.subject || '';
 
       // keep an entry even if empty (so the grid stays consistent)
       result[uiDay].push({

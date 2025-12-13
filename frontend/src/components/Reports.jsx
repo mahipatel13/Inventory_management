@@ -145,7 +145,6 @@ const Reports = ({ semesters }) => {
     <section className="reports">
       <header className="reports-header">
         <h2>Reports &amp; Analytics</h2>
-        <p>Analyze student strength by semester, subject, faculty, and date range.</p>
       </header>
 
       <form className="report-form">
@@ -208,15 +207,6 @@ const Reports = ({ semesters }) => {
       </form>
 
       <div className="report-actions">
-        <button type="button" onClick={() => fetchReport('daily')}>
-          Daily Report
-        </button>
-        <button type="button" onClick={() => fetchReport('weekly')}>
-          Weekly Report
-        </button>
-        <button type="button" onClick={() => fetchReport('monthly')}>
-          Monthly Report
-        </button>
         <button 
           type="button" 
           onClick={handleExport} 

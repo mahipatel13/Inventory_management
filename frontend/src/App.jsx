@@ -21,7 +21,9 @@ import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(sessionStorage.getItem('aiml_role') || '');
+  const [userRole, setUserRole] = useState(
+    sessionStorage.getItem('aiml_role') || localStorage.getItem('aiml_role') || ''
+  );
   const [refreshKey, setRefreshKey] = useState(0);
 
   // UI timetable shape used across Dashboard/EnterStrength/Timetable components
@@ -38,7 +40,7 @@ const App = () => {
   useEffect(() => {
     // Persist authentication based on stored token
     const token = sessionStorage.getItem('aiml_token') || localStorage.getItem('token');
-    const role = sessionStorage.getItem('aiml_role') || '';
+    const role = sessionStorage.getItem('aiml_role') || localStorage.getItem('aiml_role') || '';
     if (token) setIsAuthenticated(true);
     if (role) setUserRole(role);
   }, []);
@@ -72,7 +74,10 @@ const App = () => {
     const res = await strengthService.login({ username, password });
     const role = res?.data?.role || '';
     if (role) {
+      // Store in both sessionStorage and localStorage so role-based UI (like timetable editing)
+      // works even after a hard refresh.
       sessionStorage.setItem('aiml_role', role);
+      localStorage.setItem('aiml_role', role);
       setUserRole(role);
     }
     setIsAuthenticated(true);
@@ -83,6 +88,7 @@ const App = () => {
     sessionStorage.removeItem('aiml_token');
     sessionStorage.removeItem('aiml_role');
     localStorage.removeItem('token');
+    localStorage.removeItem('aiml_role');
     setIsAuthenticated(false);
     setUserRole('');
     // go to login screen

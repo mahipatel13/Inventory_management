@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Timetable from './Timetable';
+import EditableTimetable from './EditableTimetable';
 import { updateTimetableBySemester } from '../services/timetableService';
 import { backendSemesterToUi } from '../utils/timetableTransform';
 
@@ -20,7 +21,7 @@ const TimetablePage = ({
   const [selectedSemester, setSelectedSemester] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [draftName, setDraftName] = useState('');
-  const [draftScheduleJson, setDraftScheduleJson] = useState('[]');
+  const [draftSchedule, setDraftSchedule] = useState([]);
   const [status, setStatus] = useState('');
   const [saving, setSaving] = useState(false);
 
@@ -47,10 +48,12 @@ const TimetablePage = ({
     const semObj = key ? rawTimetables?.[key] : null;
 
     setDraftName(semObj?.name || `Semester ${n || ''}`);
-    setDraftScheduleJson(JSON.stringify(semObj?.schedule || [], null, 2));
+    setDraftSchedule(Array.isArray(semObj?.schedule) ? JSON.parse(JSON.stringify(semObj.schedule)) : []);
   }, [isEditing, selectedSemester, rawTimetables]);
 
-  const canEdit = userRole === 'admin';
+  // Only show edit controls to users with explicit edit roles.
+  // (Backend also enforces this, but we hide the UI to avoid confusion.)
+  const canEdit = userRole === 'admin' || userRole === 'staff';
   const selectedN = semesterNumberFromCode(selectedSemester);
 
   const handleSave = async () => {
@@ -59,22 +62,14 @@ const TimetablePage = ({
     setSaving(true);
     setStatus('');
     try {
-      let schedule;
-      try {
-        schedule = JSON.parse(draftScheduleJson);
-      } catch {
-        setStatus('Invalid JSON in schedule. Please fix it and try again.');
-        return;
-      }
-
-      if (!Array.isArray(schedule)) {
-        setStatus('Schedule must be a JSON array.');
+      if (!Array.isArray(draftSchedule)) {
+        setStatus('Schedule is invalid.');
         return;
       }
 
       const updated = await updateTimetableBySemester(selectedN, {
         name: draftName,
-        schedule,
+        schedule: draftSchedule,
       });
 
       const backendKey = `semester${selectedN}`;
@@ -99,6 +94,54 @@ const TimetablePage = ({
     }
   };
 
+  const handleChangeCell = (rowIndex, dayKey, field, value) => {
+    setDraftSchedule((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      const row = { ...(next[rowIndex] || {}) };
+      const cell = { ...(row[dayKey] || {}) };
+      cell[field] = value;
+      row[dayKey] = cell;
+      next[rowIndex] = row;
+      return next;
+    });
+  };
+
+  const handleChangeTime = (rowIndex, value) => {
+    setDraftSchedule((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      const row = { ...(next[rowIndex] || {}) };
+      row.time = value;
+      next[rowIndex] = row;
+      return next;
+    });
+  };
+
+  const createEmptyRow = () => ({
+    time: '',
+    monday: { subject: '', faculty: '', room: '', type: '' },
+    tuesday: { subject: '', faculty: '', room: '', type: '' },
+    wednesday: { subject: '', faculty: '', room: '', type: '' },
+    thursday: { subject: '', faculty: '', room: '', type: '' },
+    friday: { subject: '', faculty: '', room: '', type: '' },
+    saturday: { subject: '', faculty: '', room: '', type: '' },
+  });
+
+  const handleAddRow = () => {
+    setDraftSchedule((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      next.push(createEmptyRow());
+      return next;
+    });
+  };
+
+  const handleDeleteRow = (rowIndex) => {
+    setDraftSchedule((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      next.splice(rowIndex, 1);
+      return next;
+    });
+  };
+
   return (
     <section className="timetable-page">
       <header className="page-header">
@@ -116,7 +159,6 @@ const TimetablePage = ({
         </div>
       </header>
 
-
       {selectedSemester && canEdit && (
         <div style={{ marginBottom: 12 }}>
           {!isEditing ? (
@@ -125,7 +167,7 @@ const TimetablePage = ({
               onClick={() => setIsEditing(true)}
               disabled={!rawTimetables || timetableLoading}
             >
-              Edit timetable (admin)
+              Edit timetable
             </button>
           ) : (
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -140,43 +182,38 @@ const TimetablePage = ({
         </div>
       )}
 
-      {isEditing && selectedSemester && canEdit && (
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ marginBottom: 8 }}>
-            <label>
-              Name:
-              <input
-                type="text"
-                value={draftName}
-                onChange={(e) => setDraftName(e.target.value)}
-                style={{ width: '100%', maxWidth: 600, marginLeft: 8 }}
-              />
+      {isEditing && selectedSemester && canEdit ? (
+        <div>
+          <div style={{ marginBottom: 12, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+            <label htmlFor="tt-name" style={{ fontWeight: 600 }}>
+              Timetable name
             </label>
+            <input
+              id="tt-name"
+              type="text"
+              value={draftName}
+              onChange={(e) => setDraftName(e.target.value)}
+              placeholder="Semester timetable name"
+              style={{ minWidth: 260, padding: '6px 8px' }}
+            />
+            <button type="button" onClick={handleAddRow} disabled={saving}>
+              + Add time row
+            </button>
           </div>
 
-          <div>
-            <label>
-              Schedule JSON (editable):
-              <textarea
-                value={draftScheduleJson}
-                onChange={(e) => setDraftScheduleJson(e.target.value)}
-                rows={18}
-                style={{ width: '100%', fontFamily: 'monospace' }}
-              />
-            </label>
-            <p style={{ marginTop: 6, fontSize: 12, opacity: 0.85 }}>
-              Tip: each item should look like:{' '}
-              <code>
-                {'{"time":"09:10-10:10","monday":{"subject":"...","faculty":"...","room":"...","type":"LECTURE"}}'}
-              </code>
-            </p>
-          </div>
+          <EditableTimetable
+            name={draftName}
+            schedule={draftSchedule}
+            onChangeCell={handleChangeCell}
+            onChangeTime={handleChangeTime}
+            onDeleteRow={handleDeleteRow}
+          />
         </div>
+      ) : (
+        <Timetable timetable={timetable[selectedSemester] || []} loading={timetableLoading} />
       )}
 
       {status && <p style={{ marginTop: 8 }}>{status}</p>}
-
-      <Timetable timetable={timetable[selectedSemester] || []} loading={timetableLoading} />
 
       {!selectedSemester && (
         <p style={{ marginTop: 12, opacity: 0.8 }}>Select a semester to view timetable.</p>

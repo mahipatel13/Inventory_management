@@ -5,6 +5,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+
 const connectDatabase = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
@@ -14,6 +17,7 @@ const timetableRoutes = require('./routes/timetableRoutes');
 const hardwareRoutes = require('./routes/hardwareRoutes');
 const User = require('./models/User');
 const Hardware = require('./models/Hardware');
+const Timetable = require('./models/Timetable');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -66,10 +70,35 @@ const initializeDefaultHardware = async () => {
   }
 };
 
+const initializeDefaultTimetables = async () => {
+  try {
+    const count = await Timetable.countDocuments();
+    if (count > 0) return;
+
+    const timetablePath = path.join(__dirname, './data/timetables.json');
+    const raw = fs.readFileSync(timetablePath, 'utf8');
+    const fileData = JSON.parse(raw);
+
+    const docs = Object.entries(fileData || {}).map(([semesterKey, value]) => ({
+      semesterKey,
+      name: value?.name || semesterKey,
+      schedule: Array.isArray(value?.schedule) ? value.schedule : [],
+    }));
+
+    if (docs.length > 0) {
+      await Timetable.insertMany(docs);
+      console.log(`Seeded timetables: ${docs.length}`);
+    }
+  } catch (e) {
+    console.error('Failed to seed timetables', e);
+  }
+};
+
 const startServer = async () => {
   await connectDatabase();
   await initializeDefaultUser();
   await initializeDefaultHardware();
+  await initializeDefaultTimetables();
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

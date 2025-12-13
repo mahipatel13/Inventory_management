@@ -1,13 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+'use strict';
 
-const timetablePath = path.join(__dirname, '../data/timetables.json');
-
-const readTimetables = () => JSON.parse(fs.readFileSync(timetablePath, 'utf8'));
-const writeTimetables = (data) => {
-  // Note: for multi-instance deployments this won't be shared. For a single-node app, file persistence is fine.
-  fs.writeFileSync(timetablePath, JSON.stringify(data, null, 2), 'utf8');
-};
+const Timetable = require('../models/Timetable');
 
 const normalizeSemesterKey = (semesterParam) => {
   // Accept: "1" or "semester1" or "AIML1"
@@ -23,9 +16,11 @@ const normalizeSemesterKey = (semesterParam) => {
   return null;
 };
 
-const requireAdmin = (req, res) => {
-  if (!req.user || req.user.role !== 'admin') {
-    res.status(403).json({ message: 'Admin access required' });
+const requireEditor = (req, res) => {
+  // Allow both admin and staff to edit timetables.
+  const role = req.user?.role;
+  if (!req.user || (role !== 'admin' && role !== 'staff')) {
+    res.status(403).json({ message: 'Editor access required' });
     return false;
   }
   return true;
@@ -38,13 +33,12 @@ const getTimetable = async (req, res) => {
       return res.status(400).json({ message: 'Invalid semester' });
     }
 
-    const data = readTimetables();
-
-    if (!data[key]) {
+    const doc = await Timetable.findOne({ semesterKey: key }).lean();
+    if (!doc) {
       return res.status(404).json({ message: `Timetable for ${key} not found` });
     }
 
-    return res.json(data[key]);
+    return res.json({ name: doc.name, schedule: doc.schedule || [] });
   } catch (error) {
     console.error('Error fetching timetable:', error);
     return res.status(500).json({ message: 'Error fetching timetable data' });
@@ -53,7 +47,11 @@ const getTimetable = async (req, res) => {
 
 const getAllTimetables = async (_req, res) => {
   try {
-    const data = readTimetables();
+    const docs = await Timetable.find({}).lean();
+    const data = {};
+    docs.forEach((d) => {
+      data[d.semesterKey] = { name: d.name, schedule: d.schedule || [] };
+    });
     return res.json(data);
   } catch (error) {
     console.error('Error fetching timetables:', error);
@@ -63,7 +61,7 @@ const getAllTimetables = async (_req, res) => {
 
 const updateTimetable = async (req, res) => {
   try {
-    if (!requireAdmin(req, res)) return;
+    if (!requireEditor(req, res)) return;
 
     const key = normalizeSemesterKey(req.params.semester);
     if (!key) {
@@ -75,11 +73,13 @@ const updateTimetable = async (req, res) => {
       return res.status(400).json({ message: 'Body must include { name, schedule[] }' });
     }
 
-    const data = readTimetables();
-    data[key] = { name, schedule };
-    writeTimetables(data);
+    const doc = await Timetable.findOneAndUpdate(
+      { semesterKey: key },
+      { $set: { name, schedule, updatedBy: req.user?._id } },
+      { new: true, upsert: true }
+    ).lean();
 
-    return res.json(data[key]);
+    return res.json({ name: doc.name, schedule: doc.schedule || [] });
   } catch (error) {
     console.error('Error updating timetable:', error);
     return res.status(500).json({ message: 'Error updating timetable data' });
@@ -88,7 +88,7 @@ const updateTimetable = async (req, res) => {
 
 const copyTimetableFromSemester = async (req, res) => {
   try {
-    if (!requireAdmin(req, res)) return;
+    if (!requireEditor(req, res)) return;
 
     const targetKey = normalizeSemesterKey(req.params.target);
     const sourceKey = normalizeSemesterKey(req.params.source);
@@ -96,22 +96,23 @@ const copyTimetableFromSemester = async (req, res) => {
       return res.status(400).json({ message: 'Invalid target/source semester' });
     }
 
-    const data = readTimetables();
-    if (!data[sourceKey]) {
+    const source = await Timetable.findOne({ semesterKey: sourceKey }).lean();
+    if (!source) {
       return res.status(404).json({ message: `Source timetable ${sourceKey} not found` });
     }
 
-    // Keep target name (if exists), copy schedule.
-    const existingTarget = data[targetKey];
-    const targetName = existingTarget?.name || data[sourceKey].name;
+    const existingTarget = await Timetable.findOne({ semesterKey: targetKey }).lean();
+    const targetName = existingTarget?.name || source.name;
 
-    data[targetKey] = {
-      name: targetName,
-      schedule: JSON.parse(JSON.stringify(data[sourceKey].schedule || [])),
-    };
+    const copiedSchedule = JSON.parse(JSON.stringify(source.schedule || []));
 
-    writeTimetables(data);
-    return res.json(data[targetKey]);
+    const updated = await Timetable.findOneAndUpdate(
+      { semesterKey: targetKey },
+      { $set: { name: targetName, schedule: copiedSchedule, updatedBy: req.user?._id } },
+      { new: true, upsert: true }
+    ).lean();
+
+    return res.json({ name: updated.name, schedule: updated.schedule || [] });
   } catch (error) {
     console.error('Error copying timetable:', error);
     return res.status(500).json({ message: 'Error copying timetable data' });

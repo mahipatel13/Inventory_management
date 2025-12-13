@@ -38,13 +38,11 @@ const IssueHistory = () => {
           <thead>
             <tr>
               <th>Hardware</th>
-              <th>Code</th>
               <th>Student</th>
               <th>Student ID</th>
-              <th>Issued</th>
-              <th>Due</th>
+              <th>Issued Date</th>
+              <th>Due Date</th>
               <th>Returned</th>
-              <th>Period</th>
               <th>Remarks</th>
               <th>Status</th>
             </tr>
@@ -53,13 +51,11 @@ const IssueHistory = () => {
             {issues.map((it) => (
               <tr key={it._id}>
                 <td>{it.hardware?.name}</td>
-                <td>{it.hardware?.code}</td>
                 <td>{it.studentName}</td>
                 <td>{it.studentId}</td>
                 <td>{it.issueDate ? new Date(it.issueDate).toLocaleDateString() : '-'}</td>
                 <td>{it.dueDate ? new Date(it.dueDate).toLocaleDateString() : '-'}</td>
                 <td>{it.returnDate ? new Date(it.returnDate).toLocaleDateString() : '-'}</td>
-                <td>{it.period || '-'}</td>
                 <td>{it.remarks || '-'}</td>
                 <td>{it.status}</td>
               </tr>

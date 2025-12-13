@@ -13,7 +13,7 @@ const {
 router.get('/semester/:semester', authMiddleware, getTimetable);
 router.get('/', authMiddleware, getAllTimetables);
 
-// Admin-only editing endpoints
+// Editing endpoints (backend controller also enforces role-based access)
 router.put('/semester/:semester', authMiddleware, updateTimetable);
 router.post('/semester/:target/copy-from/:source', authMiddleware, copyTimetableFromSemester);
 

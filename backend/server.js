@@ -11,13 +11,9 @@ const authRoutes = require('./routes/authRoutes');
 const strengthRoutes = require('./routes/strengthRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const timetableRoutes = require('./routes/timetableRoutes');
-<<<<<<< HEAD
 const hardwareRoutes = require('./routes/hardwareRoutes');
 const User = require('./models/User');
 const Hardware = require('./models/Hardware');
-=======
-const User = require('./models/User');
->>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,10 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/strength', strengthRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/timetable', timetableRoutes);
-<<<<<<< HEAD
 app.use('/api/hardware', hardwareRoutes);
-=======
->>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da
 
 const initializeDefaultUser = async () => {
   const defaultUsername = process.env.DEFAULT_USERNAME || 'aimladmin';
@@ -51,7 +44,6 @@ const initializeDefaultUser = async () => {
   }
 };
 
-<<<<<<< HEAD
 const initializeDefaultHardware = async () => {
   const defaults = [
     { name: 'Raspberry Pi', code: 'RPI', category: 'Electronics', totalCount: 5, location: 'Lab', remarks: '' },
@@ -78,11 +70,6 @@ const startServer = async () => {
   await connectDatabase();
   await initializeDefaultUser();
   await initializeDefaultHardware();
-=======
-const startServer = async () => {
-  await connectDatabase();
-  await initializeDefaultUser();
->>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

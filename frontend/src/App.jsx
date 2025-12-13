@@ -15,13 +15,21 @@ import Revoke from './components/Revoke';
 import timetableData from './data/timetable';
 import semestersData from './data/semesters';
 import strengthService from './services/api';
+import { getAllTimetables } from './services/timetableService';
+import { backendAllTimetablesToUi } from './utils/timetableTransform';
 import './App.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(sessionStorage.getItem('aiml_role') || '');
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const timetable = useMemo(() => timetableData, []);
+  // UI timetable shape used across Dashboard/EnterStrength/Timetable components
+  const [timetable, setTimetable] = useState(timetableData);
+  // Raw backend shape (time rows + day cells) used for editing
+  const [rawTimetables, setRawTimetables] = useState(null);
+  const [timetableLoading, setTimetableLoading] = useState(false);
+
   const semesters = useMemo(() => semestersData, []);
 
   const navigate = useNavigate();
@@ -30,20 +38,53 @@ const App = () => {
   useEffect(() => {
     // Persist authentication based on stored token
     const token = sessionStorage.getItem('aiml_token') || localStorage.getItem('token');
+    const role = sessionStorage.getItem('aiml_role') || '';
     if (token) setIsAuthenticated(true);
+    if (role) setUserRole(role);
   }, []);
+
+  useEffect(() => {
+    // After login (token present), prefer backend timetables so admins can edit without code changes.
+    const loadTimetables = async () => {
+      if (!isAuthenticated) return;
+
+      setTimetableLoading(true);
+      try {
+        const all = await getAllTimetables();
+        setRawTimetables(all);
+        const ui = backendAllTimetablesToUi(all);
+        if (Object.keys(ui).length > 0) {
+          setTimetable((prev) => ({ ...prev, ...ui }));
+        }
+      } catch (e) {
+        // Keep local fallback timetableData
+        console.error('Failed to load timetables from backend; using local fallback.', e);
+      } finally {
+        setTimetableLoading(false);
+      }
+    };
+
+    loadTimetables();
+  }, [isAuthenticated]);
 
   const handleLogin = async (username, password) => {
     // return promise so caller can chain/navigation
     const res = await strengthService.login({ username, password });
+    const role = res?.data?.role || '';
+    if (role) {
+      sessionStorage.setItem('aiml_role', role);
+      setUserRole(role);
+    }
     setIsAuthenticated(true);
     return res;
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('aiml_token');
+    sessionStorage.removeItem('aiml_role');
     localStorage.removeItem('token');
     setIsAuthenticated(false);
+    setUserRole('');
     // go to login screen
     navigate('/login');
   };
@@ -95,7 +136,15 @@ const App = () => {
             path="/timetable"
             element={
               <ProtectedRoute>
-                <TimetablePage timetable={timetable} semesters={semesters} />
+                <TimetablePage
+                  timetable={timetable}
+                  setTimetable={setTimetable}
+                  semesters={semesters}
+                  rawTimetables={rawTimetables}
+                  setRawTimetables={setRawTimetables}
+                  userRole={userRole}
+                  timetableLoading={timetableLoading}
+                />
               </ProtectedRoute>
             }
           />

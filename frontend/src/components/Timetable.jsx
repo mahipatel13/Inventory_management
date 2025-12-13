@@ -128,7 +128,9 @@ const Timetable = ({ timetable, loading }) => {
                                     ) : entry.subject ? (
                                       <div className="cell-content">
                                         <div className="cell-subject">{entry.subject}</div>
-                                        {entry.subjectCode && <div className="cell-code">{entry.subjectCode}</div>}
+                                        {entry.subjectCode && entry.subjectCode !== entry.subject && (
+                                          <div className="cell-code">{entry.subjectCode}</div>
+                                        )}
                                         {entry.room && <div className="cell-room">{entry.room}</div>}
                                         {entry.faculty && <div className="cell-faculty">{entry.faculty}</div>}
                                         {entry.type && <div className="cell-type">{entry.type}</div>}

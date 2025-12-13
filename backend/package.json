@@ -15,19 +15,11 @@
     "exceljs": "^4.3.0",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
-<<<<<<< HEAD
     "jsonwebtoken": "^9.0.3",
-=======
-    "jsonwebtoken": "^9.0.2",
->>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da
     "mongoose": "^7.6.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d83b35838584bac70878df8ba16ba27ada70e4da

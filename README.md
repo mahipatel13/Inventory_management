@@ -25,7 +25,7 @@ Authentication: JWT
 
 Clone the repository:
 
-git clone https://github.com/mahipatel13/Student-Strength.git
+git clone https://github.com/mahipatel13/Inventory_management.git
 
 
 ## Install dependencies and run application:

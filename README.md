@@ -1,8 +1,8 @@
-#Student Strength Tracker
+# Student Strength Tracker
 
 Student Strength Tracker is a full-stack MERN web application designed to manage student strength records, time tables, reports, and hardware inventory for academic departments with role-based access.
 
-##Features
+## Features
 User (Lab Technician)
 
 Login / Signup
@@ -11,7 +11,7 @@ Add, update, delete strength entries
 
 Manage time tables & hardware inventory
 
-##Tech Stack
+## Tech Stack
 
 Frontend: React.js, React Router
 
@@ -21,14 +21,14 @@ Database: MongoDB Atlas (Mongoose)
 
 Authentication: JWT
 
-##Setup
+## Setup
 
 Clone the repository:
 
 git clone https://github.com/mahipatel13/Student-Strength.git
 
 
-##Install dependencies and run application:
+## Install dependencies and run application:
 
 cd backend
 npm install

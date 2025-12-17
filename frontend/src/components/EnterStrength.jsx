@@ -17,6 +17,8 @@ const initialForm = {
   studentStrength: '',
   revoke: false,
   revokeReason: '',
+  batch: '',
+  selectedSlotData: null,
 };
 
 const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
@@ -109,11 +111,28 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
       // slot is what we store/submit
       slot: slotPart,
       day: dayPart || prev.day,
-      subject: slotDetails?.subjectCode || prev.subject,
+      subject: slotDetails?.subjectCode || slotDetails?.subject || prev.subject,
       room: slotDetails?.room || prev.room,
       type: normalizeType(slotDetails?.type) || prev.type,
       faculty: slotDetails?.faculty || prev.faculty,
+      batch: '',
+      selectedSlotData: slotDetails,
     }));
+  };
+
+  const handleBatchSelect = (event) => {
+    const batchIndex = parseInt(event.target.value);
+    const slotData = formState.selectedSlotData;
+    
+    if (slotData && slotData.subjectList && slotData.facultyList && slotData.batchList) {
+      setFormState((prev) => ({
+        ...prev,
+        batch: event.target.value,
+        subject: slotData.subjectList[batchIndex] || prev.subject,
+        faculty: slotData.facultyList[batchIndex] || prev.faculty,
+        room: slotData.batchList[batchIndex] || prev.room,
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -230,6 +249,34 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             placeholder="Select date"
           />
 
+          {formState.type === 'Lab' && formState.selectedSlotData?.batchCount > 0 && (
+            <>
+              <label htmlFor="batch">Batch</label>
+              <select
+                id="batch"
+                name="batch"
+                value={formState.batch}
+                onChange={handleBatchSelect}
+                required
+              >
+                <option value="" disabled>
+                  Select batch
+                </option>
+                {Array.from({ length: formState.selectedSlotData.batchCount }, (_, i) => {
+                  const batchLetter = String.fromCharCode(65 + i);
+                  const subject = formState.selectedSlotData.subjectList?.[i] || '';
+                  const faculty = formState.selectedSlotData.facultyList?.[i] || '';
+                  const location = formState.selectedSlotData.batchList?.[i] || '';
+                  return (
+                    <option key={i} value={i}>
+                      Batch {batchLetter} - {subject} ({faculty}) @ {location}
+                    </option>
+                  );
+                })}
+              </select>
+            </>
+          )}
+
           <label htmlFor="subject">Subject</label>
           <input
             id="subject"
@@ -239,6 +286,7 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             list="subject-list"
             placeholder="Subject"
             required
+            readOnly={formState.type === 'Lab' && formState.batch !== ''}
           />
           <datalist id="subject-list">
             {filteredSubjects.map((sub) => (
@@ -256,6 +304,7 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             onChange={handleChange}
             placeholder="Room or lab"
             required
+            readOnly={formState.type === 'Lab' && formState.batch !== ''}
           />
 
           <label htmlFor="type">Type</label>
@@ -276,6 +325,7 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             onChange={handleChange}
             placeholder="Faculty name"
             required
+            readOnly={formState.type === 'Lab' && formState.batch !== ''}
           />
 
           <label htmlFor="studentStrength">Student Strength</label>

@@ -99,7 +99,39 @@ const TimetablePage = ({
       const next = Array.isArray(prev) ? [...prev] : [];
       const row = { ...(next[rowIndex] || {}) };
       const cell = { ...(row[dayKey] || {}) };
-      cell[field] = value;
+      
+      if (field === 'type') {
+        cell.type = value;
+        if (value === 'LECTURE') {
+          delete cell.batchCount;
+          delete cell.subjectList;
+          delete cell.facultyList;
+          delete cell.batchList;
+        } else if (value === 'LAB') {
+          cell.batchCount = cell.batchCount || 1;
+          cell.subjectList = Array.isArray(cell.subjectList) ? cell.subjectList : [''];
+          cell.facultyList = Array.isArray(cell.facultyList) ? cell.facultyList : [''];
+          cell.batchList = Array.isArray(cell.batchList) ? cell.batchList : [''];
+        }
+      } else if (field === 'batchCount') {
+        const newCount = parseInt(value) || 1;
+        cell.batchCount = newCount;
+        
+        const resizeArray = (arr) => {
+          const current = Array.isArray(arr) ? [...arr] : [''];
+          if (current.length < newCount) {
+            return [...current, ...Array(newCount - current.length).fill('')];
+          }
+          return current.slice(0, newCount);
+        };
+        
+        cell.subjectList = resizeArray(cell.subjectList);
+        cell.facultyList = resizeArray(cell.facultyList);
+        cell.batchList = resizeArray(cell.batchList);
+      } else {
+        cell[field] = value;
+      }
+      
       row[dayKey] = cell;
       next[rowIndex] = row;
       return next;

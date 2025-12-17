@@ -20,11 +20,17 @@ const normalizeSlot = (time) => {
 };
 
 const ensureCell = (cell) => {
-  if (!cell || typeof cell !== 'object') return { subject: '', faculty: '', room: '', type: '', batchCount: 1, facultyList: [''], batchList: [''] };
+  if (!cell || typeof cell !== 'object') return { subject: '', faculty: '', room: '', type: '', batchCount: 1, subjectList: [''], facultyList: [''], batchList: [''] };
   const batchCount = cell.batchCount || 1;
+  let subjectList = Array.isArray(cell.subjectList) ? [...cell.subjectList] : [cell.subject || ''];
   let facultyList = Array.isArray(cell.facultyList) ? [...cell.facultyList] : [cell.faculty || ''];
   let batchList = Array.isArray(cell.batchList) ? [...cell.batchList] : [cell.batch || ''];
   // Resize arrays to match batchCount
+  if (subjectList.length < batchCount) {
+    subjectList = [...subjectList, ...Array(batchCount - subjectList.length).fill('')];
+  } else if (subjectList.length > batchCount) {
+    subjectList = subjectList.slice(0, batchCount);
+  }
   if (facultyList.length < batchCount) {
     facultyList = [...facultyList, ...Array(batchCount - facultyList.length).fill('')];
   } else if (facultyList.length > batchCount) {
@@ -36,11 +42,12 @@ const ensureCell = (cell) => {
     batchList = batchList.slice(0, batchCount);
   }
   return {
+    type: cell.type || '',
     subject: cell.subject || '',
     faculty: cell.faculty || '',
     room: cell.room || '',
-    type: cell.type || '',
     batchCount,
+    subjectList,
     facultyList,
     batchList,
   };
@@ -91,35 +98,15 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                   return (
                     <td key={`${d.key}-${rowIndex}`} className="day-cell">
                       <div className="cell-content">
-                        <input
-                          type="text"
-                          value={cell.subject}
-                          onChange={(e) => onChangeCell(rowIndex, d.key, 'subject', e.target.value)}
-                          placeholder="Subject"
-                          style={{ width: '100%', marginBottom: 4 }}
-                        />
-                        <input
-                          type="text"
-                          value={cell.room}
-                          onChange={(e) => onChangeCell(rowIndex, d.key, 'room', e.target.value)}
-                          placeholder="Room"
-                          style={{ width: '100%', marginBottom: 4 }}
-                        />
-                        <input
-                          type="text"
-                          value={cell.faculty}
-                          onChange={(e) => onChangeCell(rowIndex, d.key, 'faculty', e.target.value)}
-                          placeholder="Faculty"
-                          style={{ width: '100%', marginBottom: 4 }}
-                        />
                         <select
                           value={cell.type}
                           onChange={(e) => onChangeCell(rowIndex, d.key, 'type', e.target.value)}
                           style={{ width: '100%', marginBottom: 4 }}
                         >
+                          <option value="">Select Type</option>
                           {TYPE_OPTIONS.map((t) => (
-                            <option key={t || 'empty'} value={t}>
-                              {t || 'Type'}
+                            <option key={t} value={t}>
+                              {t}
                             </option>
                           ))}
                         </select>
@@ -137,6 +124,18 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                             />
                             {Array.from({ length: cell.batchCount }, (_, i) => (
                               <div key={i}>
+                                <label style={{ fontSize: '12px', marginBottom: 2 }}>Subject {String.fromCharCode(65 + i)}</label>
+                                <input
+                                  type="text"
+                                  value={cell.subjectList[i] || ''}
+                                  onChange={(e) => {
+                                    const newSubjectList = [...cell.subjectList];
+                                    newSubjectList[i] = e.target.value;
+                                    onChangeCell(rowIndex, d.key, 'subjectList', newSubjectList);
+                                  }}
+                                  placeholder={`Subject for Batch ${String.fromCharCode(65 + i)}`}
+                                  style={{ width: '100%', marginBottom: 4 }}
+                                />
                                 <label style={{ fontSize: '12px', marginBottom: 2 }}>Faculty {String.fromCharCode(65 + i)}</label>
                                 <input
                                   type="text"
@@ -149,7 +148,7 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                                   placeholder={`Faculty for Batch ${String.fromCharCode(65 + i)}`}
                                   style={{ width: '100%', marginBottom: 4 }}
                                 />
-                                <label style={{ fontSize: '12px', marginBottom: 2 }}>Batch {String.fromCharCode(65 + i)}</label>
+                                <label style={{ fontSize: '12px', marginBottom: 2 }}>Location {String.fromCharCode(65 + i)}</label>
                                 <input
                                   type="text"
                                   value={cell.batchList[i] || ''}
@@ -158,7 +157,7 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                                     newBatchList[i] = e.target.value;
                                     onChangeCell(rowIndex, d.key, 'batchList', newBatchList);
                                   }}
-                                  placeholder={`e.g., Room 610`}
+                                  placeholder={`Location for Batch ${String.fromCharCode(65 + i)}`}
                                   style={{ width: '100%', marginBottom: 4 }}
                                 />
                               </div>
@@ -166,6 +165,30 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                             <div style={{ fontSize: '11px', color: '#666', marginTop: 4 }}>
                               Note: LAB sessions span 2 consecutive hours
                             </div>
+                          </>
+                        ) : cell.type === 'LECTURE' ? (
+                          <>
+                            <input
+                              type="text"
+                              value={cell.subject}
+                              onChange={(e) => onChangeCell(rowIndex, d.key, 'subject', e.target.value)}
+                              placeholder="Subject"
+                              style={{ width: '100%', marginBottom: 4 }}
+                            />
+                            <input
+                              type="text"
+                              value={cell.faculty}
+                              onChange={(e) => onChangeCell(rowIndex, d.key, 'faculty', e.target.value)}
+                              placeholder="Faculty"
+                              style={{ width: '100%', marginBottom: 4 }}
+                            />
+                            <input
+                              type="text"
+                              value={cell.room}
+                              onChange={(e) => onChangeCell(rowIndex, d.key, 'room', e.target.value)}
+                              placeholder="Room"
+                              style={{ width: '100%', marginBottom: 4 }}
+                            />
                           </>
                         ) : null}
                       </div>

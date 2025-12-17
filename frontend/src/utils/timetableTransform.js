@@ -48,6 +48,7 @@ export const backendSemesterToUi = (semesterObj) => {
         room: cell.room || '',
         type: cell.type || '',
         batchCount: cell.batchCount || 1,
+        subjectList: Array.isArray(cell.subjectList) ? cell.subjectList : [cell.subject || ''],
         facultyList: Array.isArray(cell.facultyList) ? cell.facultyList : [cell.faculty || ''],
         batchList: Array.isArray(cell.batchList) ? cell.batchList : [cell.batch || ''],
       });

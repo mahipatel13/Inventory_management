@@ -3,8 +3,8 @@ import './Footer.css';
 
 const Footer = () => {
   const college = process.env.REACT_APP_COLLEGE_NAME || 'Chandubhai S. Patel Institute of Technology';
-  const email = process.env.REACT_APP_AIML_EMAIL || 'cspit@aiml.edu';
-  const contact = process.env.REACT_APP_AIML_CONTACT || '+91 99967 99548';
+  const email = process.env.REACT_APP_AIML_EMAIL || 'principal.cspit@charusat.ac.in';
+  const contact = process.env.REACT_APP_AIML_CONTACT || '+91-2697-265112';
 
   return (
     <footer className="site-footer">

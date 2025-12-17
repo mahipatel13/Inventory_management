@@ -53,7 +53,7 @@ const TimetablePage = ({
 
   // Only show edit controls to users with explicit edit roles.
   // (Backend also enforces this, but we hide the UI to avoid confusion.)
-  const canEdit = userRole === 'admin' || userRole === 'staff';
+  const canEdit = true; // userRole === 'admin' || userRole === 'staff';
   const selectedN = semesterNumberFromCode(selectedSemester);
 
   const handleSave = async () => {
@@ -126,18 +126,18 @@ const TimetablePage = ({
     saturday: { subject: '', faculty: '', room: '', type: '' },
   });
 
-  const handleAddRow = () => {
-    setDraftSchedule((prev) => {
-      const next = Array.isArray(prev) ? [...prev] : [];
-      next.push(createEmptyRow());
-      return next;
-    });
-  };
-
   const handleDeleteRow = (rowIndex) => {
     setDraftSchedule((prev) => {
       const next = Array.isArray(prev) ? [...prev] : [];
       next.splice(rowIndex, 1);
+      return next;
+    });
+  };
+
+  const handleAddRow = () => {
+    setDraftSchedule((prev) => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      next.push(createEmptyRow());
       return next;
     });
   };
@@ -196,9 +196,6 @@ const TimetablePage = ({
               placeholder="Semester timetable name"
               style={{ minWidth: 260, padding: '6px 8px' }}
             />
-            <button type="button" onClick={handleAddRow} disabled={saving}>
-              + Add time row
-            </button>
           </div>
 
           <EditableTimetable
@@ -208,6 +205,11 @@ const TimetablePage = ({
             onChangeTime={handleChangeTime}
             onDeleteRow={handleDeleteRow}
           />
+          <div style={{ marginTop: 12 }}>
+            <button type="button" onClick={handleAddRow}>
+              + Add Time Slot
+            </button>
+          </div>
         </div>
       ) : (
         <Timetable timetable={timetable[selectedSemester] || []} loading={timetableLoading} />

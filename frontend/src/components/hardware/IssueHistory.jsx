@@ -5,6 +5,7 @@ import './Hardware.css';
 const IssueHistory = () => {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -19,6 +20,20 @@ const IssueHistory = () => {
     }
   };
 
+  const deleteIssue = async (issueId) => {
+    if (!window.confirm('Are you sure you want to delete this issue?')) return;
+    setDeleting(issueId);
+    try {
+      await strengthService.deleteIssue(issueId);
+      setIssues(issues.filter(it => it._id !== issueId));
+    } catch (e) {
+      console.error(e);
+      alert('Failed to delete issue.');
+    } finally {
+      setDeleting(null);
+    }
+  };
+
   useEffect(() => {
     // initial load: show all history
     load();
@@ -28,8 +43,7 @@ const IssueHistory = () => {
     <section className="issue-history">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h2>Issue History</h2>
-        <button type="button" onClick={load} disabled={loading}>Refresh</button>
-      </div>
+            </div>
 
       {loading && <p>Loading…</p>}
       {!loading && issues.length === 0 && <p>No history records.</p>}
@@ -46,6 +60,7 @@ const IssueHistory = () => {
               <th>Returned</th>
               <th>Remarks</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +75,15 @@ const IssueHistory = () => {
                 <td>{it.returnDate ? new Date(it.returnDate).toLocaleDateString() : '-'}</td>
                 <td>{it.remarks || '-'}</td>
                 <td>{it.status}</td>
+                <td>
+                  <button
+                    onClick={() => deleteIssue(it._id)}
+                    disabled={deleting === it._id}
+                    style={{ background: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
+                  >
+                    {deleting === it._id ? 'Deleting...' : 'Delete'}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

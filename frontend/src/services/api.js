@@ -19,6 +19,26 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Add a response interceptor to handle 401 errors (token expired/invalid)
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Clear all auth tokens
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('aiml_token');
+      localStorage.removeItem('aiml_role');
+      sessionStorage.removeItem('aiml_role');
+
+      // Redirect to login if not already there
+      if (!window.location.pathname.endsWith('/login')) {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 const login = async (credentials) => {
   const response = await apiClient.post('/auth/login', credentials);
   const { token } = response.data;

@@ -89,6 +89,9 @@ const Timetable = ({ timetable, loading }) => {
     return list.find((e) => e.slot === slot) || null;
   };
 
+  // Track cells that are spanned by LAB sessions
+  const skippedCells = new Set();
+
   return (
     <div className="timetable weekly-table">
       <h2>Semester Timetable</h2>
@@ -107,9 +110,18 @@ const Timetable = ({ timetable, loading }) => {
               <tr key={slot}>
                 <td className="slot-cell">{slot}</td>
                         {dayOrder.map((day) => {
+                              if (skippedCells.has(`${day}-${slot}`)) return null;
                               const entry = findEntry(day, slot);
+                              let rowspan = 1;
+                              if (entry && entry.type === 'LAB') {
+                                const currentIndex = slotOrder.indexOf(slot);
+                                if (currentIndex < slotOrder.length - 1) {
+                                  rowspan = 2;
+                                  skippedCells.add(`${day}-${slotOrder[currentIndex + 1]}`);
+                                }
+                              }
                               return (
-                                <td key={`${day}-${slot}`} className="day-cell">
+                                <td key={`${day}-${slot}`} className="day-cell" rowSpan={rowspan}>
                                   {entry ? (
                                     // If entry has sections (A..E), render them inside the cell
                                     entry.sections ? (
@@ -127,13 +139,37 @@ const Timetable = ({ timetable, loading }) => {
                                       </div>
                                     ) : entry.subject ? (
                                       <div className="cell-content">
-                                        <div className="cell-subject">{entry.subject}</div>
-                                        {entry.subjectCode && entry.subjectCode !== entry.subject && (
-                                          <div className="cell-code">{entry.subjectCode}</div>
+                                        {entry.type === 'LECTURE' ? (
+                                          <>
+                                            <div className="cell-type">{entry.type}</div>
+                                            <div className="cell-subject">{entry.subject}</div>
+                                            {entry.faculty && <div className="cell-faculty">{entry.faculty}</div>}
+                                            {entry.room && <div className="cell-room">{entry.room}</div>}
+                                          </>
+                                        ) : entry.type === 'LAB' ? (
+                                          <>
+                                            <div className="cell-type">{entry.type}</div>
+                                            <div className="cell-subject">{entry.subject}</div>
+                                            {entry.faculty && <div className="cell-faculty">{entry.faculty}</div>}
+                                            {Array.from({ length: entry.batchCount || 1 }, (_, i) => {
+                                              const batchLetter = String.fromCharCode(65 + i); // A, B, C...
+                                              const faculty = Array.isArray(entry.facultyList) ? entry.facultyList[i] : '';
+                                              const batch = Array.isArray(entry.batchList) ? entry.batchList[i] : '';
+                                              return (
+                                                <div key={i} className="cell-batch">
+                                                  Batch {batchLetter}: {batch || ''} {faculty ? `(${faculty})` : ''}
+                                                </div>
+                                              );
+                                            })}
+                                          </>
+                                        ) : (
+                                          <>
+                                            <div className="cell-subject">{entry.subject}</div>
+                                            {entry.room && <div className="cell-room">{entry.room}</div>}
+                                            {entry.faculty && <div className="cell-faculty">{entry.faculty}</div>}
+                                            {entry.type && <div className="cell-type">{entry.type}</div>}
+                                          </>
                                         )}
-                                        {entry.room && <div className="cell-room">{entry.room}</div>}
-                                        {entry.faculty && <div className="cell-faculty">{entry.faculty}</div>}
-                                        {entry.type && <div className="cell-type">{entry.type}</div>}
                                       </div>
                                     ) : (
                                       <div className="cell-empty">&nbsp;</div>

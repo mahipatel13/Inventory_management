@@ -20,16 +20,33 @@ const normalizeSlot = (time) => {
 };
 
 const ensureCell = (cell) => {
-  if (!cell || typeof cell !== 'object') return { subject: '', faculty: '', room: '', type: '' };
+  if (!cell || typeof cell !== 'object') return { subject: '', faculty: '', room: '', type: '', batchCount: 1, facultyList: [''], batchList: [''] };
+  const batchCount = cell.batchCount || 1;
+  let facultyList = Array.isArray(cell.facultyList) ? [...cell.facultyList] : [cell.faculty || ''];
+  let batchList = Array.isArray(cell.batchList) ? [...cell.batchList] : [cell.batch || ''];
+  // Resize arrays to match batchCount
+  if (facultyList.length < batchCount) {
+    facultyList = [...facultyList, ...Array(batchCount - facultyList.length).fill('')];
+  } else if (facultyList.length > batchCount) {
+    facultyList = facultyList.slice(0, batchCount);
+  }
+  if (batchList.length < batchCount) {
+    batchList = [...batchList, ...Array(batchCount - batchList.length).fill('')];
+  } else if (batchList.length > batchCount) {
+    batchList = batchList.slice(0, batchCount);
+  }
   return {
     subject: cell.subject || '',
     faculty: cell.faculty || '',
     room: cell.room || '',
     type: cell.type || '',
+    batchCount,
+    facultyList,
+    batchList,
   };
 };
 
-const TYPE_OPTIONS = ['', 'LECTURE', 'LAB', 'TUTORIAL', 'PRACTICAL', 'ACTIVITY', 'SESSION'];
+const TYPE_OPTIONS = ['LECTURE', 'LAB'];
 
 const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDeleteRow }) => {
   const rows = useMemo(() => (Array.isArray(schedule) ? schedule : []), [schedule]);
@@ -98,7 +115,7 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                         <select
                           value={cell.type}
                           onChange={(e) => onChangeCell(rowIndex, d.key, 'type', e.target.value)}
-                          style={{ width: '100%' }}
+                          style={{ width: '100%', marginBottom: 4 }}
                         >
                           {TYPE_OPTIONS.map((t) => (
                             <option key={t || 'empty'} value={t}>
@@ -106,6 +123,51 @@ const EditableTimetable = ({ name, schedule, onChangeCell, onChangeTime, onDelet
                             </option>
                           ))}
                         </select>
+                        {cell.type === 'LAB' ? (
+                          <>
+                            <label style={{ fontSize: '12px', marginBottom: 2 }}>Batch Count</label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="10"
+                              value={cell.batchCount}
+                              onChange={(e) => onChangeCell(rowIndex, d.key, 'batchCount', parseInt(e.target.value) || 1)}
+                              placeholder="e.g., 4"
+                              style={{ width: '100%', marginBottom: 4 }}
+                            />
+                            {Array.from({ length: cell.batchCount }, (_, i) => (
+                              <div key={i}>
+                                <label style={{ fontSize: '12px', marginBottom: 2 }}>Faculty {String.fromCharCode(65 + i)}</label>
+                                <input
+                                  type="text"
+                                  value={cell.facultyList[i] || ''}
+                                  onChange={(e) => {
+                                    const newFacultyList = [...cell.facultyList];
+                                    newFacultyList[i] = e.target.value;
+                                    onChangeCell(rowIndex, d.key, 'facultyList', newFacultyList);
+                                  }}
+                                  placeholder={`Faculty for Batch ${String.fromCharCode(65 + i)}`}
+                                  style={{ width: '100%', marginBottom: 4 }}
+                                />
+                                <label style={{ fontSize: '12px', marginBottom: 2 }}>Batch {String.fromCharCode(65 + i)}</label>
+                                <input
+                                  type="text"
+                                  value={cell.batchList[i] || ''}
+                                  onChange={(e) => {
+                                    const newBatchList = [...cell.batchList];
+                                    newBatchList[i] = e.target.value;
+                                    onChangeCell(rowIndex, d.key, 'batchList', newBatchList);
+                                  }}
+                                  placeholder={`e.g., Room 610`}
+                                  style={{ width: '100%', marginBottom: 4 }}
+                                />
+                              </div>
+                            ))}
+                            <div style={{ fontSize: '11px', color: '#666', marginTop: 4 }}>
+                              Note: LAB sessions span 2 consecutive hours
+                            </div>
+                          </>
+                        ) : null}
                       </div>
                     </td>
                   );

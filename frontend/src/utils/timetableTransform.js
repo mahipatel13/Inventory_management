@@ -47,6 +47,9 @@ export const backendSemesterToUi = (semesterObj) => {
         faculty: cell.faculty || '',
         room: cell.room || '',
         type: cell.type || '',
+        batchCount: cell.batchCount || 1,
+        facultyList: Array.isArray(cell.facultyList) ? cell.facultyList : [cell.faculty || ''],
+        batchList: Array.isArray(cell.batchList) ? cell.batchList : [cell.batch || ''],
       });
     });
   });

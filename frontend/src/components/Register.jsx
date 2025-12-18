@@ -40,6 +40,11 @@ const Register = () => {
       return;
     }
 
+    if (!/[A-Z]/.test(password)) {
+      setError('Password must contain at least one capital letter.');
+      return;
+    }
+
     if (email && !email.toLowerCase().endsWith('@gmail.com') && !email.toLowerCase().endsWith('@charusat.ac.in')) {
       setError('Email must be a Gmail (@gmail.com) or Charusat (@charusat.ac.in) address.');
       return;

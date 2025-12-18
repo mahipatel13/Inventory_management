@@ -147,9 +147,14 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
 
       const selectedSubject = filteredSubjects.find(sub => sub.code === formState.subject);
       // Do not send UI-only fields like slotKey to the backend.
-      const { slotKey: _slotKey, ...formWithoutUiFields } = formState;
+      const { slotKey: _slotKey, selectedSlotData: _selectedSlotData, ...formWithoutUiFields } = formState;
+      const batchInfo = formState.type === 'Lab' && formState.batch !== '' ? {
+        batchLetter: String.fromCharCode(65 + parseInt(formState.batch)),
+        batchIndex: parseInt(formState.batch)
+      } : {};
       const payload = {
         ...formWithoutUiFields,
+        ...batchInfo,
         studentStrength: Number(formState.studentStrength),
         subjectName: selectedSubject?.name || formState.subject,
         date: formState.date || new Date().toISOString(),
@@ -227,17 +232,45 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
               Select slot
             </option>
             {availableSlots.map((slot) => {
-              // create a unique value combining day and slot to avoid collisions across days
               const value = slot._day ? `${slot._day}||${slot.slot}` : `||${slot.slot}`;
               const labelDay = slot._day ? `${slot._day} — ` : '';
               const labelSub = slot.subject || (slot.sections ? 'Sections' : '');
+              const duration = slot.type === 'LAB' ? ' (2 hours)' : '';
               return (
                 <option key={value} value={value}>
-                  {labelDay}{slot.slot} — {labelSub}
+                  {labelDay}{slot.slot}{duration} — {labelSub}
                 </option>
               );
             })}
           </select>
+          
+          {formState.type === 'Lab' && formState.selectedSlotData?.batchCount > 0 && (
+            <>
+              <label htmlFor="batch">Select Batch</label>
+              <select
+                id="batch"
+                name="batch"
+                value={formState.batch}
+                onChange={handleBatchSelect}
+                required
+              >
+                <option value="" disabled>
+                  Select batch for strength entry
+                </option>
+                {Array.from({ length: formState.selectedSlotData.batchCount }, (_, i) => {
+                  const batchLetter = String.fromCharCode(65 + i);
+                  const subject = formState.selectedSlotData.subjectList?.[i] || '';
+                  const faculty = formState.selectedSlotData.facultyList?.[i] || '';
+                  const location = formState.selectedSlotData.batchList?.[i] || '';
+                  return (
+                    <option key={i} value={i}>
+                      Batch {batchLetter}: {subject} - {faculty} @ {location}
+                    </option>
+                  );
+                })}
+              </select>
+            </>
+          )}
 
           <label htmlFor="date">Date</label>
           <input
@@ -249,33 +282,7 @@ const EnterStrength = ({ semesters, timetable, onSubmit, onRefresh }) => {
             placeholder="Select date"
           />
 
-          {formState.type === 'Lab' && formState.selectedSlotData?.batchCount > 0 && (
-            <>
-              <label htmlFor="batch">Batch</label>
-              <select
-                id="batch"
-                name="batch"
-                value={formState.batch}
-                onChange={handleBatchSelect}
-                required
-              >
-                <option value="" disabled>
-                  Select batch
-                </option>
-                {Array.from({ length: formState.selectedSlotData.batchCount }, (_, i) => {
-                  const batchLetter = String.fromCharCode(65 + i);
-                  const subject = formState.selectedSlotData.subjectList?.[i] || '';
-                  const faculty = formState.selectedSlotData.facultyList?.[i] || '';
-                  const location = formState.selectedSlotData.batchList?.[i] || '';
-                  return (
-                    <option key={i} value={i}>
-                      Batch {batchLetter} - {subject} ({faculty}) @ {location}
-                    </option>
-                  );
-                })}
-              </select>
-            </>
-          )}
+
 
           <label htmlFor="subject">Subject</label>
           <input

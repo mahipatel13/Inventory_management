@@ -230,20 +230,22 @@ const Reports = ({ semesters }) => {
                 <th>Slot</th>
                 <th>Room/Lab</th>
                 <th>Type</th>
+                <th>Batch</th>
                 <th>Strength</th>
                 <th>Revoke</th>
               </tr>
             </thead>
             <tbody>
               {reportData.map((entry) => (
-                <tr key={`${entry.date}-${entry.slot}-${entry.subject}`}>
+                <tr key={`${entry.date}-${entry.slot}-${entry.subject}-${entry.batchLetter || ''}`}>
                   <td>{entry.date}</td>
                   <td>{entry.semester}</td>
                   <td>{entry.subject}</td>
                   <td>{entry.faculty}</td>
-                  <td>{entry.slot}</td>
+                  <td>{entry.slot}{entry.type === 'Lab' ? ' (2 hours)' : ''}</td>
                   <td>{entry.room}</td>
                   <td>{entry.type}</td>
+                  <td>{entry.batchLetter || '-'}</td>
                   <td>{entry.strength}</td>
                   <td>{entry.revokeReason || '-'}</td>
                 </tr>

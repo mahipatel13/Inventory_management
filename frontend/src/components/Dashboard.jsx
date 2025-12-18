@@ -167,7 +167,7 @@ const Dashboard = ({ timetable, semesters, onStrengthSubmit, onRefresh }) => {
                   {semesterLabel(entry.semester)}
                 </span>
               </div>
-              <h3>{entry.subject}</h3>
+              <h3>{entry.subject}{entry.batchLetter ? ` - Batch ${entry.batchLetter}` : ''}</h3>
               <p>
                 <strong>Added:</strong> {entry.date} {entry.time}
               </p>
@@ -178,7 +178,7 @@ const Dashboard = ({ timetable, semesters, onStrengthSubmit, onRefresh }) => {
                 <strong>Faculty:</strong> {entry.faculty}
               </p>
               <p>
-                <strong>Slot:</strong> {entry.slot}
+                <strong>Slot:</strong> {entry.slot}{entry.roomType === 'Lab' ? ' (2 hours)' : ''}
               </p>
               <p>
                 <strong>Room:</strong> {entry.roomName} ({entry.roomType})

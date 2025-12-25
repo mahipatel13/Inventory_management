@@ -35,3 +35,9 @@ The system is built following **real-world ERP and college management system pra
 ### 🔹 Role-Based Access Control
 - **Admin**: Full access
 - **Student**: Read-only access
+
+🌐 Live Demo
+
+You can access the live version of this project here:
+
+👉 Live Website:https://tech-management-frontend.onrender.com
